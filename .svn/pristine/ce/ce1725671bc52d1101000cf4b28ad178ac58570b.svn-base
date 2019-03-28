@@ -1,0 +1,162 @@
+<resources>
+
+
+    <!-- Base application theme. -->
+    <style name="BaseCodeAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#38adff</item>
+        <item name="colorPrimaryDark">#38adff</item>
+        <item name="colorAccent">#38adff</item>
+        <item name="android:textViewStyle">@style/CustomTextViewStyle</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item><!-- 加入toolbar溢出【弹出】菜单的风格 -->
+        <item name="buttonStyle">@style/CustomButtonStyle</item>
+        <item name="alertDialogTheme">@style/Theme.AppCompat.Light.Dialog.Alert.Self</item><!--自定义AlertDialog-->
+        <item name="styleLoadingLayout">@style/LoadingLayoutStyle</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
+    </style>
+
+    <!-- 自定义TextView -->
+    <style name="CustomTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">#575757</item>
+    </style>
+    <!--Toolbard的溢出菜单样式-->
+    <style name="OverflowMenuStyle" parent="@style/Widget.AppCompat.PopupMenu.Overflow">
+        <!-- 是否覆盖锚点，默认为true，即盖住Toolbar -->
+        <item name="overlapAnchor">false</item>
+        <item name="android:dropDownWidth">wrap_content</item>
+        <item name="android:paddingRight">5dp</item>
+        <!-- 弹出层背景颜色 -->
+        <item name="android:popupBackground">#F4F4F4</item>
+        <!-- 弹出层垂直方向上的偏移，即在竖直方向上距离Toolbar的距离，值为负则会盖住Toolbar -->
+        <item name="android:dropDownVerticalOffset">5dp</item>
+        <!-- 弹出层水平方向上的偏移，即距离屏幕左边的距离，负值会导致右边出现空隙 -->
+        <item name="android:dropDownHorizontalOffset">0dp</item>
+        <!-- 设置弹出菜单文字颜色 -->
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="Theme.AppCompat.Light.Dialog.Alert.Self">
+        <!--修改AlertDialog按钮的颜色-->
+        <item name="colorAccent">#38adff</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <!-- 自定义Button -->
+    <style name="CustomButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/but_default_select</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <!-- 设置Toolbar标题字体的大小 -->
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+   <!-- <style name="CustomProgress">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/custom_progress_layer
+        </item>&lt;!&ndash; progress_horizontal &ndash;&gt;
+        <item name="android:indeterminateDrawable">
+            @android:drawable/progress_indeterminate_horizontal
+        </item>
+        <item name="android:minHeight">20dip</item>
+        <item name="android:maxHeight">20dip</item>
+    </style>
+-->
+
+    <style name="LoadingLayoutStyle" parent="LoadingLayout.Style">
+        <item name="llEmptyImage">@mipmap/empty</item>
+        <item name="llErrorImage">@mipmap/internet_error</item>
+    </style>
+    <style name="MyEdittext" parent="@android:style/Widget.EditText">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">false</item>
+        <item name="android:cursorVisible">false</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:inputType">text</item>
+    </style>
+
+    <style name="YzqEdittext" parent="MyEdittext">
+        <item name="android:focusable">true</item>
+        <item name="android:cursorVisible">true</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="translucent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground" >@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="AppDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:background">@android:color/background_light</item>
+    </style>
+
+    <!--<style name="dialogWindowAnim" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/dialog_animation_enter</item>
+        <item name="android:windowExitAnimation">@anim/dialog_animation_exit</item>
+    </style>-->
+
+    <style name="TreeNodeStyleCustom">
+        <item name="android:paddingLeft">20dp</item>
+        <!--<item name="android:showDividers">middle</item>-->
+        <!--<item name="android:divider">@android:drawable/divider_horizontal_bright</item>-->
+    </style>
+
+    <!--普通dialog-->
+    <style name="CustomProgressDialog" parent="@style/CustomDialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    <style name="CustomDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+    </style>
+
+    <!-- pupupwindow的弹出和消失动画 -->
+    <style name="popup_window_anim">
+        <item name="android:windowEnterAnimation">@anim/pop_in</item>
+        <item name="android:windowExitAnimation">@anim/pop_out</item>
+    </style>
+    <style name="PupopWindow.Style" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/pupop_window_out_bottom</item>
+        <item name="android:windowExitAnimation">@anim/pupop_window_in_bottom</item>
+    </style>
+
+    <style name="WebViewProgress">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/web_view_progress_layer
+        </item><!-- progress_horizontal -->
+        <item name="android:indeterminateDrawable">
+            @android:drawable/progress_indeterminate_horizontal
+        </item>
+        <item name="android:minHeight">20dip</item>
+        <item name="android:maxHeight">20dip</item>
+    </style>
+    <!--TabLayout的字体大小-->
+    <style name="TabLayoutTextStyle">
+        <item name="android:textSize">16sp</item>
+    </style><!--
+    <style name="NumberProgressBar_Beauty_Red">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="max">100</item>
+        <item name="progress">0</item>
+        <item name="progress_unreached_color">#CCCCCC</item>
+        <item name="progress_reached_color">#FF0000</item>
+        <item name="progress_text_size">14sp</item>
+        <item name="progress_text_color">#FF0000</item>
+        <item name="progress_reached_bar_height">3.5dp</item>
+        <item name="progress_unreached_bar_height">0.75dp</item>
+    </style>-->
+</resources>

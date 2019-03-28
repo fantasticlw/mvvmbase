@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="gray">#808080</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="green">#008000</color>
+    <color name="blue">#0000FF</color>
+    <color name="orange">#FFA500</color>
+
+    <array name="in_colors_light">
+        <item>#4B03A9F4</item>
+        <item>#3303A9F4</item>
+        <item>#1903A9F4</item>
+    </array>
+
+    <color name="baseText">#3b3b3b</color>
+    <color name="baseLine">#d9d9d9</color>
+    <color name="colorPrimary">#38adff</color>
+    <color name="colorPrimaryDark">#38adff</color>
+    <color name="colorAccent">#38adff</color>
+    <color name="baseColor">#38adff</color>
+    <color name="baseBg">#837B78</color>
+    <color name="background_tab_pressed">#6633B5E5</color>
+    <color name="conversation_gray">#D3D3D3</color>
+
+
+    <color name="base_divider">#b6b5b5</color>
+    <color name="maincolor">#38adff</color>
+    <color name="text_gray">#c9c8c8</color>
+    <color name="bg_gray">#F0EFEF</color>
+    <color name="pesscolor">#D5D5D8</color>
+    <!--分割线-->
+    <color name="purpler">#a240e7</color>
+    <color name="green_light">#B5E61D</color>
+
+
+    <color name="gray_divider">#d7dce1</color>
+    <color name="dark_gray_divider">#bbc2ca</color>
+    <color name="timeline_background">#f4f6f8</color>
+    <!--背景色-->
+    <color name="text_black_87">#de000000</color>
+    <color name="badger_bg">#FF3E3E</color>
+    <color name="red">#FF3E3E</color>
+    <color name="textview_table_bg">#ffe4e3e4</color>
+    <color name="carperson_black">#70000000</color>
+    <color name="actionsheet_gray">#8F8F8F</color>
+    <color name="font_gray">#33888888</color>
+    <!--按钮-->
+    <color name="but_press">#0479d9</color>
+    <color name="but_normal">#1d85db</color>
+    <color name="purple">#1a32a7</color>
+    <!--文字-->
+    <color name="text_blue">#1974CD</color>
+    <color name="divider">#B6B6B6</color>
+    <color name="edittext_table_bg_focus">#ffe5f3f8</color>
+    <color name="lgray">#edecec</color>
+    <color name="grey">#BEBEBE</color>
+    <color name="mygray">#B6B6B6</color>
+    <color name="background_card">#fff</color>
+    <color name="bgreen">#00ff0c</color>
+    <color name="gray_light"> #F4F4F4</color>
+    <color name="brown">#574909</color>
+    <color name="pink">#e740be</color>
+    <color name="translucent">#e0000000</color>
+
+    <color name="transparent">#00000000</color>
+
+    <color name="viewfinder_laser">#ffff0000</color>
+
+    <color name="zwwx_m">#5077AA</color>
+</resources>

@@ -1,0 +1,26 @@
+package cn.ruicz.basecore.utils;
+
+import android.content.Context;
+import android.util.TypedValue;
+
+/**
+ * cn.ruicz.basecore.utils
+ *
+ * @author xyq
+ * @time 2019-1-23 10:23
+ * Remark ------------------------------------------------
+ */
+public class MyDisplayUtil {
+    /**
+     * 根据dip值转化成px值
+     *
+     * @param context
+     * @param dip
+     * @return
+     */
+    public static int dipToPix(Context context, int dip) {
+        int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dip, context.getResources().getDisplayMetrics());
+        return size;
+    }
+
+}

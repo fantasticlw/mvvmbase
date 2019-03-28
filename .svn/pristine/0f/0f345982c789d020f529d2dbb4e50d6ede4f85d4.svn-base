@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="cn.ruicz.demo.ui.network.NetWorkViewModel" />
+
+        <variable
+            name="viewModel"
+            type="cn.ruicz.demo.ui.network.NetWorkViewModel" />
+        <import type="cn.ruicz.basecore.binding.viewadapter.recyclerview.LineManagers" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:binding="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                binding:adapter="@{viewModel.adapter}"
+                binding:itemBinding="@{viewModel.itemBinding}"
+                binding:items="@{viewModel.observableList}"
+                binding:lineManager="@{LineManagers.horizontal()}" />
+
+    </LinearLayout>
+</layout>

@@ -1,0 +1,48 @@
+package cn.ruicz.basecore.base;
+
+import android.databinding.ViewDataBinding;
+
+import me.yokeyword.fragmentation.ISupportFragment;
+
+/**
+ * 懒加载
+ * Created by CLW on 16/6/5.
+ */
+public abstract class BaseChildFragment<V extends ViewDataBinding, VM extends BaseViewModel> extends BaseFragment<V, VM> {
+
+    @Override
+    public void start(ISupportFragment toFragment) {
+        if (getParentFragment() != null && getParentFragment() instanceof BaseFragment) {
+            ((BaseFragment) getParentFragment()).start(toFragment);
+        }
+    }
+
+    @Override
+    public void start(ISupportFragment toFragment, int launchMode) {
+        if (getParentFragment() != null && getParentFragment() instanceof BaseFragment) {
+            ((BaseFragment) getParentFragment()).start(toFragment, ISupportFragment.STANDARD);
+        }
+        super.start(toFragment, launchMode);
+    }
+
+    @Override
+    public void startForResult(ISupportFragment toFragment, int requestCode) {
+        if (getParentFragment() != null && getParentFragment() instanceof BaseFragment) {
+            ((BaseFragment) getParentFragment()).startForResult(toFragment, requestCode);
+        }
+    }
+
+    @Override
+    public void startWithPop(ISupportFragment toFragment) {
+        if (getParentFragment() != null && getParentFragment() instanceof BaseFragment) {
+            ((BaseFragment) getParentFragment()).startWithPop(toFragment);
+        }
+    }
+
+    @Override
+    public void startWithPopTo(ISupportFragment toFragment, Class<?> targetFragmentClass, boolean includeTargetFragment) {
+        if (getParentFragment() != null && getParentFragment() instanceof BaseFragment) {
+            ((BaseFragment) getParentFragment()).startWithPopTo(toFragment, targetFragmentClass, includeTargetFragment);
+        }
+    }
+}

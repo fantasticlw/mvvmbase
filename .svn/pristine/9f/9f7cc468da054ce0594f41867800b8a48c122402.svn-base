@@ -1,0 +1,18 @@
+package cn.ruicz.demo.utils;
+
+
+import io.reactivex.Observable;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
+
+/**
+ * Author: MBENBEN
+ * Time: 2016/10/26 on 14:21
+ */
+public interface HttpService {
+
+    //es服务总线人员详情
+    @GET("services/archives/queryPersonInfo")
+    Observable<String> queryPersonArchivesDetailByID(@Query("params") String params, @Query("key") String key);
+
+}
