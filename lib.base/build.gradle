@@ -96,6 +96,5 @@ dependencies {
     api 'com.just.agentweb:filechooser:4.0.2'
     // (可选)
     api 'com.tencent.sonic:sdk:3.1.0'
-    implementation files('libs/wwshare.jar')
 }
 
