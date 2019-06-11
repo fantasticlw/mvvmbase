@@ -93,7 +93,7 @@ public class LoginViewModel extends BaseViewModel {
         }
         //RaJava模拟一个延迟操作
         Observable.empty()
-                .delay(3, TimeUnit.SECONDS) //延迟3秒
+                .delay(1, TimeUnit.SECONDS) //延迟3秒
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> showDialog("正在登陆..."))
                 .doOnComplete(() -> {

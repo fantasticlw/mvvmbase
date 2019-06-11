@@ -21,6 +21,7 @@ android {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
         }
     }
 
@@ -28,6 +29,7 @@ android {
     flavorDimensions "default"
     // 多渠道/多环境 的不同配置
     productFlavors {
+
         dev {
             dimension "default"
             // 每个环境包名不同
@@ -36,7 +38,10 @@ android {
             // 注意，这里是添加，在 string.xml 不能有这个字段，会重名！！！
             resValue "string", "app_name", "rczbase"
             // 动态修改 常量 字段
-            buildConfigField "String", "SERVER_IP", '"127.0.0.1"'
+            buildConfigField "String", "ServerIp", '""'
+            buildConfigField "String", "BaseUrl", '""'
+            buildConfigField "String", "AppId", '""'
+            buildConfigField "String", "Secret", '""'
             // 修改 AndroidManifest.xml 里渠道变量
 //            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "dev"]
             // 修改APP图标
@@ -51,7 +56,11 @@ android {
             // 注意，这里是添加，在 string.xml 不能有这个字段，会重名！！！
             resValue "string", "app_name", "rczbase"
             // 动态修改 常量 字段
-            buildConfigField "String", "SERVER_IP", '"127.0.0.1"'
+            buildConfigField "String", "ServerIp", '"127.0.0.1"'
+            buildConfigField "String", "BaseUrl", '""'
+            buildConfigField "String", "AppId", '""'
+            buildConfigField "String", "Secret", '""'
+            buildConfigField "String", "ClientId", '""'
             // 修改 AndroidManifest.xml 里渠道变量
 //            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "dev"]
             // 修改APP图标

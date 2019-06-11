@@ -1,6 +1,5 @@
 package cn.ruicz.basecore.base;
 
-import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
@@ -26,7 +25,6 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 import cn.ruicz.basecore.R;
-import cn.ruicz.basecore.utils.MaterialDialogUtils;
 import cn.ruicz.basecore.base.BaseViewModel.ParameterField;
 import cn.ruicz.basecore.bus.Messenger;
 import cn.ruicz.basecore.utils.MaterialDialogUtils;
@@ -59,6 +57,8 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
         getLifecycle().removeObserver(viewModel);
         viewModel.removeRxBus();
         viewModel = null;
+        loadingLayout.removeAllViews();
+        loadingLayout = null;
         binding.unbind();
     }
 
@@ -77,7 +77,7 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
                 //如果没有指定泛型参数，则默认使用BaseViewModel
                 modelClass = BaseViewModel.class;
             }
-            viewModel = (VM) createViewModel(this, modelClass);
+            viewModel = (VM) createViewModel(modelClass);
         }
         // 绑定Fragment生命周期
         binding.setLifecycleOwner(this);
@@ -106,6 +106,7 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
         initViewObservable();
         //注册RxBus
         viewModel.registerRxBus();
+        initLoadingLayout(binding.getRoot());
     }
 
 
@@ -179,6 +180,21 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
      **/
     //注册ViewModel与View的契约UI回调事件
     private void registorUIChangeLiveDataCallBack() {
+        //加载对话框显示
+        viewModel.getUC().getShowLoadingEvent().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                loadingLayout.showLoading();
+            }
+        });
+        //加载对话框消失
+        viewModel.getUC().getDismissLoadingEvent().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                loadingLayout.showContent();
+            }
+        });
+
         //加载对话框显示
         viewModel.getUC().getShowDialogEvent().observe(this, new Observer<String>() {
             @Override
@@ -318,11 +334,33 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
      * 创建ViewModel
      *
      * @param cls
-     * @param <T>
+     * @return
+     */
+    public <T extends ViewModel> T createViewModel(Class<T> cls) {
+        if (getParentFragment() != null){
+            return ViewModelProviders.of(getParentFragment()).get(cls);
+        }else{
+            return ViewModelProviders.of(getActivity()).get(cls);
+        }
+    }
+
+    /**
+     * 创建ViewModel
+     *
+     * @param cls
      * @return
      */
     public <T extends ViewModel> T createViewModel(Fragment fragment, Class<T> cls) {
         return ViewModelProviders.of(fragment).get(cls);
     }
 
+    /**
+     * 创建ViewModel
+     *
+     * @param cls
+     * @return
+     */
+    public <T extends ViewModel> T createViewModel(FragmentActivity activity, Class<T> cls) {
+        return ViewModelProviders.of(activity).get(cls);
+    }
 }

@@ -2,6 +2,7 @@ package cn.ruicz.demo.app;
 
 import android.app.Activity;
 
+import cn.ruicz.basecore.zwwx.ZwwxInfoManager;
 import cn.ruicz.demo.BuildConfig;
 import cn.ruicz.demo.R;
 import cn.ruicz.basecore.base.BaseApplication;
@@ -13,7 +14,7 @@ import cn.ruicz.basecore.utils.KLog;
  * Created by goldze on 2017/7/16.
  */
 
-public class AppApplication extends BaseApplication {
+public class App extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
@@ -25,6 +26,9 @@ public class AppApplication extends BaseApplication {
 //        if (!LeakCanary.isInAnalyzerProcess(this)) {
 //            LeakCanary.install(this);
 //        }
+
+        // 初始化政务微信接口AppId和Secret
+        ZwwxInfoManager.initAppIdAndSecret(BuildConfig.AppId, BuildConfig.Secret);
     }
 
     private void initCrash() {

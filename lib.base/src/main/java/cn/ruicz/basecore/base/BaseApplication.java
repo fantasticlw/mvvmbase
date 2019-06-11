@@ -10,6 +10,7 @@ import cn.ruicz.basecore.BuildConfig;
 import cn.ruicz.basecore.LibBase;
 import cn.ruicz.basecore.utils.AppUtils;
 import cn.ruicz.basecore.utils.Utils;
+import cn.ruicz.basecore.zwwx.ZwwxUserInfo;
 
 /**
  * Created by goldze on 2017/6/15.

@@ -20,9 +20,8 @@ public abstract class BaseChildFragment<V extends ViewDataBinding, VM extends Ba
     @Override
     public void start(ISupportFragment toFragment, int launchMode) {
         if (getParentFragment() != null && getParentFragment() instanceof BaseFragment) {
-            ((BaseFragment) getParentFragment()).start(toFragment, ISupportFragment.STANDARD);
+            ((BaseFragment) getParentFragment()).start(toFragment, launchMode);
         }
-        super.start(toFragment, launchMode);
     }
 
     @Override

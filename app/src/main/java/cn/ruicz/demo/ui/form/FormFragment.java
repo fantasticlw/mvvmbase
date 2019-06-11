@@ -53,7 +53,7 @@ public class FormFragment extends BaseFragment<FragmentFormBinding, FormViewMode
         //View层传参到ViewModel层
         viewModel.setFormEntity(entity);
         //创建TitleViewModel
-        TitleViewModel titleViewModel = createViewModel(this, TitleViewModel.class);
+        TitleViewModel titleViewModel = createViewModel(TitleViewModel.class);
         viewModel.setTitleViewModel(titleViewModel);
     }
 

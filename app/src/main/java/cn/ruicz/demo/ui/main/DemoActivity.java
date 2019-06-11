@@ -15,7 +15,6 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import cn.ruicz.basecore.utils.ToastUtils;
 import io.reactivex.functions.Consumer;
 import cn.ruicz.basecore.base.BaseActivity;
-import cn.ruicz.basecore.http.DownLoadManager;
 import cn.ruicz.basecore.http.download.ProgressCallBack;
 import okhttp3.ResponseBody;
 
@@ -53,7 +52,6 @@ public class DemoActivity extends BaseActivity<ActivityDemoBinding, DemoViewMode
         viewModel.loadUrl.observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String url) {
-                downFile(url);
             }
         });
     }
@@ -77,42 +75,4 @@ public class DemoActivity extends BaseActivity<ActivityDemoBinding, DemoViewMode
                 });
     }
 
-    private void downFile(String url) {
-        String destFileDir = getApplication().getCacheDir().getPath();
-        String destFileName = System.currentTimeMillis() + ".apk";
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progressDialog.setTitle("正在下载...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-        DownLoadManager.getInstance().load(url, new ProgressCallBack<ResponseBody>(destFileDir, destFileName) {
-            @Override
-            public void onStart() {
-                super.onStart();
-            }
-
-            @Override
-            public void onCompleted() {
-                progressDialog.dismiss();
-            }
-
-            @Override
-            public void onSuccess(ResponseBody responseBody) {
-                ToastUtils.showShort("文件下载完成！");
-            }
-
-            @Override
-            public void progress(final long progress, final long total) {
-                progressDialog.setMax((int) total);
-                progressDialog.setProgress((int) progress);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-                ToastUtils.showShort("文件下载失败！");
-                progressDialog.dismiss();
-            }
-        });
-    }
 }

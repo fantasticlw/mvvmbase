@@ -11,7 +11,7 @@ import cn.ruicz.demo.BR;
 import cn.ruicz.demo.R;
 import cn.ruicz.demo.entity.DemoEntity;
 import cn.ruicz.demo.service.DemoApiService;
-import cn.ruicz.demo.utils.RetrofitClient;
+
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
 
@@ -119,53 +119,7 @@ public class NetWorkViewModel extends BaseViewModel {
      * 网络请求方法，在ViewModel中调用，Retrofit+RxJava充当Repository，即可视为Model层
      */
     public void requestNetWork() {
-        RetrofitClient.getInstance().create(DemoApiService.class)
-                .demoGet()
-                .doOnSubscribe(new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        showDialog("正在请求...");
-                    }
-                })
-                .as(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(getLifecycleOwner())))
-                .subscribe((Consumer) new Consumer<BaseResponse<DemoEntity>>() {
-                    @Override
-                    public void accept(BaseResponse<DemoEntity> response) throws Exception {
-                        itemIndex = 0;
-                        //清除列表
-                        observableList.clear();
-                        //请求成功
-                        if (response.getCode() == 1) {
-                            //将实体赋给LiveData
-                            for (DemoEntity.ItemsEntity entity : response.getResult().getItems()) {
-                                NetWorkItemViewModel itemViewModel = new NetWorkItemViewModel(NetWorkViewModel.this, entity);
-                                //双向绑定动态添加Item
-                                observableList.add(itemViewModel);
-                            }
-                        } else {
-                            //code错误时也可以定义Observable回调到View层去处理
-                            ToastUtils.showShort("数据错误");
-                        }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        //关闭对话框
-                        dismissDialog();
-                        //请求刷新完成收回
-                        uc.finishRefreshing.set(!uc.finishRefreshing.get());
-                        ToastUtils.showShort(throwable.getMessage());
-                        throwable.printStackTrace();
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        //关闭对话框
-                        dismissDialog();
-                        //请求刷新完成收回
-                        uc.finishRefreshing.set(!uc.finishRefreshing.get());
-                    }
-                });
+
     }
 
     /**

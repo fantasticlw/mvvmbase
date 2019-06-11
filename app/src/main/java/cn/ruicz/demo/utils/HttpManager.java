@@ -23,16 +23,4 @@ public enum HttpManager {
     HttpManager(){
         httpService = BaseHttpUtils.createApiService(HttpService.class, baseUrl);
     }
-
-
-
-    /**
-     * 获取人员信息的请求
-     * @param sfzh  人员身份证号
-     * @param
-     */
-    public SimpleObserver queryPersonArchivesDetailByID(LifecycleOwner lifecycleOwner, String sfzh, SimpleObserver subscriber) {
-        Observable observable = httpService.queryPersonArchivesDetailByID("","a028");
-        return toSubscribe(lifecycleOwner, observable, subscriber);
-    }
 }

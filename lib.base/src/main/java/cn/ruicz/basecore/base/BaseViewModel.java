@@ -187,6 +187,8 @@ public class BaseViewModel extends AndroidViewModel implements IBaseViewModel {
     public class UIChangeLiveData extends SingleLiveEvent {
         private SingleLiveEvent<String> showDialogEvent;
         private SingleLiveEvent dismissDialogEvent;
+        private SingleLiveEvent showLoadingEvent;
+        private SingleLiveEvent dismissLoadingEvent;
         private SingleLiveEvent<Map<String, Object>> startActivityEvent;
         private SingleLiveEvent<Map<String, Object>> startActivityForResultEvent;
         private SingleLiveEvent<Map<String, Object>> startContainerActivityEvent;
@@ -199,6 +201,14 @@ public class BaseViewModel extends AndroidViewModel implements IBaseViewModel {
 
         public SingleLiveEvent getDismissDialogEvent() {
             return dismissDialogEvent = createLiveData(dismissDialogEvent);
+        }
+
+        public SingleLiveEvent getShowLoadingEvent() {
+            return showLoadingEvent = createLiveData(showDialogEvent);
+        }
+
+        public SingleLiveEvent getDismissLoadingEvent() {
+            return dismissLoadingEvent = createLiveData(dismissDialogEvent);
         }
 
         public SingleLiveEvent<Map<String, Object>> getStartActivityEvent() {
