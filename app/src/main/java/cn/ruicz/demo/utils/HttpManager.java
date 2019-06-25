@@ -1,12 +1,6 @@
 package cn.ruicz.demo.utils;
 
-import android.arch.lifecycle.LifecycleOwner;
-
-import io.reactivex.Observable;
 import cn.ruicz.basecore.http.BaseHttpUtils;
-import cn.ruicz.basecore.http.SimpleObserver;
-
-import static cn.ruicz.basecore.http.BaseHttpUtils.toSubscribe;
 
 
 /**
