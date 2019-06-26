@@ -92,7 +92,6 @@ public abstract class BaseRecyclerFragment<V extends FragmentRecyclerBinding, VM
         mRecyclerView = binding.recyclerView;
         initLoadingLayout(mRecyclerView);
         loadingLayout.showContent();
-
         loadingLayout.setRetryListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

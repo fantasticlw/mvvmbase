@@ -39,7 +39,7 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
     protected VM viewModel;
     protected int viewModelId;
     private MaterialDialog dialog;
-//    public LoadingLayout loadingLayout;
+    public LoadingLayout loadingLayout;
     public Toolbar mToolbar;
 
     @Override
@@ -57,8 +57,8 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
         getLifecycle().removeObserver(viewModel);
         viewModel.removeRxBus();
         viewModel = null;
-//        loadingLayout.removeAllViews();
-//        loadingLayout = null;
+        loadingLayout.removeAllViews();
+        loadingLayout = null;
         binding.unbind();
     }
 
@@ -106,7 +106,6 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
         initViewObservable();
         //注册RxBus
         viewModel.registerRxBus();
-//        initLoadingLayout(binding.getRoot());
     }
 
 
@@ -162,18 +161,18 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
     }
 
     // 初始化loadinglayout
-//    protected LoadingLayout initLoadingLayout(View view){
-//        if (loadingLayout == null){
-//            loadingLayout = LoadingLayout.wrap(view);
-//            loadingLayout.setErrorImage(R.mipmap.error);
-//            loadingLayout.setEmptyImage(R.mipmap.empty);
-//            ViewGroup.LayoutParams lp = loadingLayout.getLayoutParams();
-//            lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
-//            lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
-//            loadingLayout.setLayoutParams(lp);
-//        }
-//        return loadingLayout;
-//    }
+    protected LoadingLayout initLoadingLayout(View view){
+        if (loadingLayout == null){
+            loadingLayout = LoadingLayout.wrap(view);
+            loadingLayout.setErrorImage(R.mipmap.error);
+            loadingLayout.setEmptyImage(R.mipmap.empty);
+            ViewGroup.LayoutParams lp = loadingLayout.getLayoutParams();
+            lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
+            lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            loadingLayout.setLayoutParams(lp);
+        }
+        return loadingLayout;
+    }
 
     /**
      * =====================================================================
@@ -184,14 +183,14 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
         viewModel.getUC().getShowLoadingEvent().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
-//                loadingLayout.showLoading();
+                loadingLayout.showLoading();
             }
         });
         //加载对话框消失
         viewModel.getUC().getDismissLoadingEvent().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
-//                loadingLayout.showContent();
+                loadingLayout.showContent();
             }
         });
 
