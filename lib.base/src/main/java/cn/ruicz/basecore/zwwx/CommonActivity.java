@@ -115,6 +115,7 @@ public class CommonActivity extends BaseActivity<CommonActBinding, BaseViewModel
      */
     private void getAccessToken() {
         if (TextUtils.isEmpty(ZwwxInfoManager.getBaseUrl())){
+            getNewUserInfo();
             return;
         }
         BaseHttpManager.newInstance().getRzcToken(getLifecycle(),acode, new SimpleObserver<>(this, new Consumer<String>() {
@@ -138,6 +139,7 @@ public class CommonActivity extends BaseActivity<CommonActBinding, BaseViewModel
      */
     private void getToken() {
         if (TextUtils.isEmpty(ZwwxInfoManager.getBaseUrl())){
+            getUserInfo();
             return;
         }
         BaseHttpManager.newInstance().getRzcToken(getLifecycle(),acode, new SimpleObserver<>(this, new Consumer<String>() {
