@@ -1,6 +1,7 @@
 package cn.ruicz.basecore.http;
 
 import android.arch.lifecycle.Lifecycle;
+import android.text.TextUtils;
 
 import cn.ruicz.basecore.BuildConfig;
 import cn.ruicz.basecore.zwwx.ZwwxInfoManager;
@@ -17,8 +18,6 @@ import static cn.ruicz.basecore.http.BaseHttpUtils.toSubscribe;
  */
 public class BaseHttpManager {
     private static BaseHttpManager httpManger;
-
-    private static String userUrl = ZwwxInfoManager.getBaseUrl();
     private BaseHttpService wxService;
 
 
@@ -30,7 +29,11 @@ public class BaseHttpManager {
         if(httpManger == null){
             synchronized (BaseHttpManager.class) {
                 httpManger = new BaseHttpManager();
-                httpManger.wxService = BaseHttpUtils.createApiService(BaseHttpService.class, userUrl);
+                if (!TextUtils.isEmpty(ZwwxInfoManager.getBaseUrl())){
+                    httpManger.wxService = BaseHttpUtils.createApiService(BaseHttpService.class, ZwwxInfoManager.getBaseUrl());
+                }else{
+                    httpManger.wxService = BaseHttpUtils.createApiService(BaseHttpService.class, "http://127.0.0.1/");
+                }
             }
         }
         return httpManger;
