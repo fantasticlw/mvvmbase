@@ -35,12 +35,21 @@ public class ZwwxInfoManager {
     /**
      * 初始化政务微信appId和secret
      */
-    public static void initAppIdAndSecret(String abaseUrl, String aappid, String asecret){
+    public static void initAppIdAndSecret(String aappid, String asecret){
         if (!TextUtils.isEmpty(appId) && !TextUtils.isEmpty(secret)){
             throw new RuntimeException("此初始化方法只能调用一次");
         }
         appId = aappid;
         secret = asecret;
+    }
+
+    /**
+     * 初始化BaseUrl
+     */
+    public static void initBaseUrl(String abaseUrl){
+        if (!TextUtils.isEmpty(abaseUrl)){
+            throw new RuntimeException("此初始化方法只能调用一次");
+        }
         baseUrl = abaseUrl;
     }
 

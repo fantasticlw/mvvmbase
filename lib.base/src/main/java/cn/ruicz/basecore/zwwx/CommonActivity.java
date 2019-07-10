@@ -114,6 +114,9 @@ public class CommonActivity extends BaseActivity<CommonActBinding, BaseViewModel
      * 获取睿策者新闻平台Accesstoken
      */
     private void getAccessToken() {
+        if (TextUtils.isEmpty(ZwwxInfoManager.getBaseUrl())){
+            return;
+        }
         BaseHttpManager.newInstance().getRzcToken(getLifecycle(),acode, new SimpleObserver<>(this, new Consumer<String>() {
             @Override
             public void accept(String result) throws Exception {
@@ -134,6 +137,9 @@ public class CommonActivity extends BaseActivity<CommonActBinding, BaseViewModel
      * 获取睿策者旧版token
      */
     private void getToken() {
+        if (TextUtils.isEmpty(ZwwxInfoManager.getBaseUrl())){
+            return;
+        }
         BaseHttpManager.newInstance().getRzcToken(getLifecycle(),acode, new SimpleObserver<>(this, new Consumer<String>() {
             @Override
             public void accept(String result) throws Exception {
