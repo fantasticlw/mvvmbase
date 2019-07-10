@@ -3,6 +3,7 @@ package cn.ruicz.basecore.http;
 import android.arch.lifecycle.Lifecycle;
 
 import cn.ruicz.basecore.BuildConfig;
+import cn.ruicz.basecore.zwwx.ZwwxInfoManager;
 import io.reactivex.Observable;
 
 import static cn.ruicz.basecore.http.BaseHttpUtils.toSubscribe;
@@ -17,7 +18,7 @@ import static cn.ruicz.basecore.http.BaseHttpUtils.toSubscribe;
 public class BaseHttpManager {
     private static BaseHttpManager httpManger;
 
-    private static String userUrl = BuildConfig.BASE_URL;
+    private static String userUrl = ZwwxInfoManager.getBaseUrl();
     private BaseHttpService wxService;
 
 

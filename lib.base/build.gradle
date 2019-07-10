@@ -13,7 +13,6 @@ android {
         multiDexEnabled true
 
         buildConfigField "Boolean", "IS_ZWWX", IS_ZWWX
-        buildConfigField "String", "BASE_URL", BASE_URL
     }
     dataBinding {
         enabled true

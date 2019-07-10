@@ -11,6 +11,7 @@ public class ZwwxInfoManager {
     private static String appId;
     private static String secret;
     private static Class cls;
+    private static String baseUrl;
 
     /**
      * 初始化政务微信用户信息
@@ -34,12 +35,13 @@ public class ZwwxInfoManager {
     /**
      * 初始化政务微信appId和secret
      */
-    public static void initAppIdAndSecret(String aappid, String asecret){
+    public static void initAppIdAndSecret(String abaseUrl, String aappid, String asecret){
         if (!TextUtils.isEmpty(appId) && !TextUtils.isEmpty(secret)){
             throw new RuntimeException("此初始化方法只能调用一次");
         }
         appId = aappid;
         secret = asecret;
+        baseUrl = abaseUrl;
     }
 
     /**
@@ -51,6 +53,11 @@ public class ZwwxInfoManager {
             throw new RuntimeException("必须先调用初始化方法 initZwwxUserInfo()");
         }
         return zwwxUserInfo;
+    }
+
+
+    public static String getBaseUrl(){
+        return baseUrl;
     }
 
     /**
