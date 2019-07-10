@@ -57,8 +57,10 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
         getLifecycle().removeObserver(viewModel);
         viewModel.removeRxBus();
         viewModel = null;
-        loadingLayout.removeAllViews();
-        loadingLayout = null;
+        if (loadingLayout != null) {
+            loadingLayout.removeAllViews();
+            loadingLayout = null;
+        }
         binding.unbind();
     }
 
@@ -126,7 +128,7 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
             mToolbar.setTitle("");
         }*/
         if (hasBack) {
-//            mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+            mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
             mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -227,6 +229,15 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
                 onActivityForResult(clz, request, bundle);
             }
         });
+        //跳入新页面
+        viewModel.getUC().getStartContainerFragmentEvent().observe(this, new Observer<Map<String, Object>>() {
+            @Override
+            public void onChanged(@Nullable Map<String, Object> params) {
+                BaseFragment baseFragment  = (BaseFragment) params.get(ParameterField.FRAGMENT);
+                int lcode = (int) params.get(ParameterField.LANUCHCODE);
+                onStartFragment(baseFragment, lcode);
+            }
+        });
         //关闭界面
         viewModel.getUC().getFinishEvent().observe(this, new Observer<Boolean>() {
             @Override
@@ -284,6 +295,10 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
     public void onActivityForResult(Class<?> clz, int requestCode, Bundle bundle) {
         Intent intent = new Intent(getContext(), clz);
         startActivityForResult(intent, requestCode, bundle);
+    }
+
+    public void onStartFragment(BaseFragment fragment, int launchMode){
+        start(fragment, launchMode);
     }
 
     /**

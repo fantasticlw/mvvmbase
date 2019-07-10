@@ -44,7 +44,9 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         this.context = context;
         this.convertView = convertView;
         this.views = new SparseArray<>();
-        this.dataBinding = DataBindingUtil.bind(convertView);
+        if (null != viewGroup){
+            this.dataBinding = DataBindingUtil.bind(convertView);
+        }
     }
 
     public ViewHolder(Context context, ViewDataBinding dataBinding) {

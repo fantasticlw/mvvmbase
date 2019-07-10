@@ -70,6 +70,10 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         getLifecycle().removeObserver(viewModel);
         viewModel.removeRxBus();
         viewModel = null;
+        if (loadingLayout != null) {
+            loadingLayout.removeAllViews();
+            loadingLayout = null;
+        }
         binding.unbind();
     }
 

@@ -134,6 +134,26 @@ public class BaseViewModel extends AndroidViewModel implements IBaseViewModel {
         uc.startContainerActivityEvent.postValue(params);
     }
 
+    public void onStartFragmentForResult(BaseFragment fragment, Bundle bundle){
+        Map<String, Object> params = new HashMap<>();
+        params.put(ParameterField.FRAGMENT, fragment);
+        if (null != bundle) {
+            params.put(ParameterField.BUNDLE, bundle);
+        }
+        uc.startContainerFragmentEvent.postValue(params);
+    }
+
+    public void onStartFragment(BaseFragment fragment, int luanchcode){
+        Map<String, Object> params = new HashMap<>();
+        params.put(ParameterField.FRAGMENT, fragment);
+        params.put(ParameterField.LANUCHCODE, luanchcode);
+        uc.startContainerFragmentEvent.postValue(params);
+    }
+
+    public void onStartFragment(BaseFragment fragment){
+        onStartFragment(fragment, 0);
+    }
+
     /**
      * 关闭界面
      */
@@ -192,6 +212,7 @@ public class BaseViewModel extends AndroidViewModel implements IBaseViewModel {
         private SingleLiveEvent<Map<String, Object>> startActivityEvent;
         private SingleLiveEvent<Map<String, Object>> startActivityForResultEvent;
         private SingleLiveEvent<Map<String, Object>> startContainerActivityEvent;
+        private SingleLiveEvent<Map<String, Object>> startContainerFragmentEvent;
         private SingleLiveEvent finishEvent;
         private SingleLiveEvent onBackPressedEvent;
 
@@ -223,6 +244,10 @@ public class BaseViewModel extends AndroidViewModel implements IBaseViewModel {
             return startContainerActivityEvent = createLiveData(startContainerActivityEvent);
         }
 
+        public SingleLiveEvent<Map<String, Object>> getStartContainerFragmentEvent() {
+            return startContainerFragmentEvent = createLiveData(startContainerFragmentEvent);
+        }
+
         public SingleLiveEvent getFinishEvent() {
             return finishEvent = createLiveData(finishEvent);
         }
@@ -249,6 +274,8 @@ public class BaseViewModel extends AndroidViewModel implements IBaseViewModel {
         public static String CANONICAL_NAME = "CANONICAL_NAME";
         public static String BUNDLE = "BUNDLE";
         public static String RESULTCODE = "RESULTCODE";
+        public static String FRAGMENT = "FRAGMENT";
+        public static String LANUCHCODE = "LANUCHCODE";
     }
 
     public void onShowToast(String str){

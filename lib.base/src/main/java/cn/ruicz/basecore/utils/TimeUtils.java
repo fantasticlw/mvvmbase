@@ -1,6 +1,7 @@
 package cn.ruicz.basecore.utils;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -35,6 +36,8 @@ public final class TimeUtils {
     private TimeUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
+
+
 
     /**
      * Milliseconds to the formatted time string.
@@ -110,6 +113,32 @@ public final class TimeUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 任意时间格式转换
+     * 如果第二格式为空，默认为 yyyy-MM-dd HH:mm:ss 格式
+     * @author xyq
+     */
+    public static String string2Format(final String time, @NonNull final String sformat, final String eformat) {
+        if (!TextUtils.isEmpty(time)){
+            try {
+                SimpleDateFormat formatter = new SimpleDateFormat(sformat);
+                Date date = string2Date(time, formatter);
+                String sTime = "";
+                if (TextUtils.isEmpty(eformat)){
+                    sTime = date2String(date);
+                } else {
+                    SimpleDateFormat formate = new SimpleDateFormat(eformat);
+                    sTime = date2String(date, formate);
+                }
+
+                return sTime;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return "";
     }
 
     /**
@@ -349,6 +378,14 @@ public final class TimeUtils {
      */
     public static String getNowString() {
         return millis2String(System.currentTimeMillis(), getDefaultFormat());
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static String getyesString() {
+        return millis2String(System.currentTimeMillis() - 86400000, getDefaultFormat());
     }
 
     /**

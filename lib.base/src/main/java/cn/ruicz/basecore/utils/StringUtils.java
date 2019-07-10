@@ -3,6 +3,7 @@ package cn.ruicz.basecore.utils;
 import android.content.res.Resources;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.StringRes;
+import android.text.method.ReplacementTransformationMethod;
 
 /**
  * <pre>
@@ -237,4 +238,25 @@ public final class StringUtils {
             return new String[0];
         }
     }
+
+
+    /**
+     * UpCase the abc whatever you input. like abc to ABC.
+     * For exemple(edittext.setText(replaceUpCaseMethod()))
+     * @author xyq
+     */
+    public static ReplacementTransformationMethod replaceUpCaseMethod = new ReplacementTransformationMethod() {
+        @Override
+        protected char[] getOriginal() {
+            char[] originalCharArr = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z' };
+            return originalCharArr;
+        }
+
+        @Override
+        protected char[] getReplacement() {
+            char[] replacementCharArr = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z' };
+            return replacementCharArr;
+        }
+    };
+
 }

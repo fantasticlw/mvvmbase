@@ -10,6 +10,7 @@ public class ZwwxInfoManager {
     private static ZwwxUserInfo zwwxUserInfo;
     private static String appId;
     private static String secret;
+    private static Class cls;
 
     /**
      * 初始化政务微信用户信息
@@ -20,6 +21,14 @@ public class ZwwxInfoManager {
             throw new RuntimeException("此初始化方法只能调用一次");
         }
         zwwxUserInfo = o;
+    }
+
+    /**
+     * 初始化跳转界面
+     * @param cls2
+     */
+    public static void initLaunchActivity(Class cls2){
+        cls = cls2;
     }
 
     /**
@@ -42,6 +51,17 @@ public class ZwwxInfoManager {
             throw new RuntimeException("必须先调用初始化方法 initZwwxUserInfo()");
         }
         return zwwxUserInfo;
+    }
+
+    /**
+     * 获取政务微信用户信息
+     * @return
+     */
+    public static Class getLaunchActivity(){
+        if (cls == null){
+            throw new RuntimeException("必须先调用初始化方法 initLaunchActivity()");
+        }
+        return cls;
     }
 
     public static String getAppid(){

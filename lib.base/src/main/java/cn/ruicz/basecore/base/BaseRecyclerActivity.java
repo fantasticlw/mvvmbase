@@ -1,8 +1,10 @@
 package cn.ruicz.basecore.base;
 
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,13 +84,13 @@ public abstract class BaseRecyclerActivity<V extends FragmentRecyclerBinding, VM
         initView();
         initRecycler();
         initListener();
+        mRefreshLayout.setRefreshing(true);
         LibBase.INSTANCE.post(new Runnable() {
             @Override
             public void run() {
                 requestData();
             }
         });
-
     }
 
 
@@ -97,7 +99,7 @@ public abstract class BaseRecyclerActivity<V extends FragmentRecyclerBinding, VM
         mRecyclerView = binding.recyclerView;
         initLoadingLayout(mRecyclerView);
         loadingLayout.showContent();
-
+        mRefreshLayout.setRefreshing(true);
         loadingLayout.setRetryListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,7 +116,7 @@ public abstract class BaseRecyclerActivity<V extends FragmentRecyclerBinding, VM
     }
 
     private void initRecycler() {
-        mRecyclerView.setLayoutManager(createLayoutManager());
+        mRecyclerView.setLayoutManager(createLayoutManager());//默认是列表  gridLayoutManager(count)
         mRecyclerView.addItemDecoration(createItemDecoration());
         mAdapter = createAdapter();
         mAdapter.setLoadingView(getLoadingView());
@@ -129,24 +131,38 @@ public abstract class BaseRecyclerActivity<V extends FragmentRecyclerBinding, VM
     }
 
     protected RecyclerView.ItemDecoration createItemDecoration() {
-
         return new RecyclerViewDecoration(this, VERTICAL, 1, R.color.conversation_gray, 0);
     }
 
+
     protected RecyclerView.LayoutManager createLayoutManager() {
         return new LinearLayoutManager(this);
+    }
+
+
+    protected RecyclerView.LayoutManager gridLayoutManager(int sum) {
+        return new GridLayoutManager(this, sum);
+    }
+
+    protected RecyclerView.LayoutManager staggerdGridLayoutManager(int sum, int orientation) {
+        return new StaggeredGridLayoutManager(sum, orientation);
     }
 
     public void setRefreshing(boolean refreshing) {
         mRefreshLayout.setRefreshing(refreshing);
     }
 
+    protected void disableRefresh(){
+        mRefreshLayout.setRefreshing(false);
+        mRefreshLayout.setEnabled(false);
+    }
+
     @Override
     public void onRefresh() {
         if (NetworkUtils.isConnected()){
-//            if (!mRefreshLayout.isRefreshing()) {
-//                setRefreshing(true);
-//            }
+            if (!mRefreshLayout.isRefreshing()) {
+                setRefreshing(true);
+            }
             mIndex = INIT_INDEX;
             requestData();
         }else{
@@ -192,7 +208,23 @@ public abstract class BaseRecyclerActivity<V extends FragmentRecyclerBinding, VM
         return new Consumer<ArrayList<T>>() {
             @Override
             public void accept(ArrayList<T> datas) {
-                addAll(datas);
+                if (datas.isEmpty()){
+                    if (getIndex() == INIT_INDEX){
+                        loadingLayout.showEmpty();
+                    }
+                    getAdapter().setFooterState(FOOTER_STATE_END);
+                }else{
+                    loadingLayout.showContent();
+
+                    if (getIndex() == INIT_INDEX) {
+                        getAdapter().reset();
+                    }
+                    getAdapter().addAll(datas);
+                    // 加载数据如果小于 PAGE_SIZE 说明已全部加载完毕
+                    if (datas.size() < PAGE_SIZE){
+                        getAdapter().setFooterState(FOOTER_STATE_END);
+                    }
+                }
             }
         };
     }
@@ -210,8 +242,10 @@ public abstract class BaseRecyclerActivity<V extends FragmentRecyclerBinding, VM
     }
 
     public void addAll(List<T> datas, int position){
-        if (datas.size() <= 0){
-            loadingLayout.showEmpty();
+        if (datas == null || datas.isEmpty()){
+            if (getIndex() == INIT_INDEX){
+                loadingLayout.showEmpty();
+            }
             getAdapter().setFooterState(FOOTER_STATE_END);
         }else {
             //getAdapter().clear();
@@ -224,9 +258,9 @@ public abstract class BaseRecyclerActivity<V extends FragmentRecyclerBinding, VM
             }
 
 
-//            getAdapter().getAll().addAll(position, datas);
+            getAdapter().getAll().addAll(position, datas);
 
-            getAdapter().addAll(datas);
+            //getAdapter().addAll(datas);
 
 
             // 加载数据如果小于 PAGE_SIZE 说明已全部加载完毕
@@ -257,7 +291,6 @@ public abstract class BaseRecyclerActivity<V extends FragmentRecyclerBinding, VM
 
     public void add(T data){
         getAdapter().add(data);
-        getAdapter().notifyDataSetChanged();
         if (getAdapter().getAll().size() == 1){
             loadingLayout.showContent();
         }
@@ -265,7 +298,6 @@ public abstract class BaseRecyclerActivity<V extends FragmentRecyclerBinding, VM
 
     public void add(T data, int position){
         getAdapter().add(data, position);
-        getAdapter().notifyDataSetChanged();
         if (getAdapter().getAll().size() == 1){
             loadingLayout.showContent();
         }
@@ -273,7 +305,6 @@ public abstract class BaseRecyclerActivity<V extends FragmentRecyclerBinding, VM
 
     public void remove(int position){
         getAdapter().remove(position);
-        getAdapter().notifyDataSetChanged();
         if (getAdapter().getItemCount() == 0){
             loadingLayout.showEmpty();
         }
@@ -281,7 +312,6 @@ public abstract class BaseRecyclerActivity<V extends FragmentRecyclerBinding, VM
 
     public void remove(T data){
         getAdapter().remove(data);
-        getAdapter().notifyDataSetChanged();
         if (getAdapter().getItemCount() == 0){
             loadingLayout.showEmpty();
         }

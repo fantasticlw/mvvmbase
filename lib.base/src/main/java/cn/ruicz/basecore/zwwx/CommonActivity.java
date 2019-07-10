@@ -166,7 +166,7 @@ public class CommonActivity extends BaseActivity<CommonActBinding, BaseViewModel
 
                             ZwwxUserInfo zwwxUserInfoBean = new Gson().fromJson(result, ZwwxUserInfo.class);
                             ZwwxInfoManager.initZwwxUserInfo(zwwxUserInfoBean);
-//                            startActivity(MapMainActivity.class);
+                            startActivity(ZwwxInfoManager.getLaunchActivity());
                             finish();
 
 
