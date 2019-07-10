@@ -18,7 +18,7 @@ public class ZwwxInfoManager {
      * @param o
      */
     public static void initZwwxUserInfo(ZwwxUserInfo o){
-        if (zwwxUserInfo == null){
+        if (zwwxUserInfo != null){
             throw new RuntimeException("此初始化方法只能调用一次");
         }
         zwwxUserInfo = o;
