@@ -1,6 +1,5 @@
 package cn.ruicz.basecore.zwwx;
 
-import android.text.TextUtils;
 
 /**
  * 政务微信信息管理器
@@ -18,9 +17,6 @@ public class ZwwxInfoManager {
      * @param o
      */
     public static void initZwwxUserInfo(ZwwxUserInfo o){
-        if (zwwxUserInfo != null){
-            throw new RuntimeException("此初始化方法只能调用一次");
-        }
         zwwxUserInfo = o;
     }
 
@@ -36,9 +32,6 @@ public class ZwwxInfoManager {
      * 初始化政务微信appId和secret
      */
     public static void initAppIdAndSecret(String aappid, String asecret){
-        if (!TextUtils.isEmpty(appId) && !TextUtils.isEmpty(secret)){
-            throw new RuntimeException("此初始化方法只能调用一次");
-        }
         appId = aappid;
         secret = asecret;
     }
@@ -47,9 +40,6 @@ public class ZwwxInfoManager {
      * 初始化BaseUrl
      */
     public static void initBaseUrl(String abaseUrl){
-        if (!TextUtils.isEmpty(abaseUrl)){
-            throw new RuntimeException("此初始化方法只能调用一次");
-        }
         baseUrl = abaseUrl;
     }
 
@@ -59,20 +49,19 @@ public class ZwwxInfoManager {
      */
     public static ZwwxUserInfo getZwwxUserInfo(){
         if (zwwxUserInfo == null){
-            throw new RuntimeException("必须先调用初始化方法 initZwwxUserInfo()");
+            throw new RuntimeException("必须先调用初始化方法 initBaseUrl()");
         }
         return zwwxUserInfo;
     }
 
 
     public static String getBaseUrl(){
+        if (baseUrl == null){
+            throw new RuntimeException("必须先调用初始化方法 initLaunchActivity()");
+        }
         return baseUrl;
     }
 
-    /**
-     * 获取政务微信用户信息
-     * @return
-     */
     public static Class getLaunchActivity(){
         if (cls == null){
             throw new RuntimeException("必须先调用初始化方法 initLaunchActivity()");
