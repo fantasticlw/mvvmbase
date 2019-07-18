@@ -21,6 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cn.ruicz.basecore.BuildConfig;
+import cn.ruicz.basecore.zwwx.ZwwxInfoManager;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -254,7 +255,7 @@ public class LogHelper {
         public String requestid = "";   // 请求ID，随机数
         public String sessionid = "";   // 请求ID，随机数
         public String terminalip = "";  // 手机端IP
-        public String source = "217";   // APP对应source
+        public String source = ZwwxInfoManager.getLogSource();   // APP对应source
         public String logtype;      // 日志类型，增删改查
         public String module = "";  // 模块名称
         public String params = "";  // 请求参数

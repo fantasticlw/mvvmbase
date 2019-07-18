@@ -65,7 +65,12 @@ dependencies {
     api(rootProject.ext.dependencies["material-dialogs-commons"]) {
         exclude group: 'com.android.support'
     }
+    // dialog第三方库
     api rootProject.ext.dependencies.xpopup
+
+    api rootProject.ext.dependencies.MaterialEditText
+
+    api rootProject.ext.dependencies.PickerView
     //glide图片加载库
     api rootProject.ext.dependencies.glide
     annotationProcessor rootProject.ext.dependencies["glide-compiler"]

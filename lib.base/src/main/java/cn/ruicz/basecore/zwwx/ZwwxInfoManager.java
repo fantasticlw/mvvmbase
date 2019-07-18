@@ -9,6 +9,7 @@ public class ZwwxInfoManager {
     private static ZwwxUserInfo zwwxUserInfo;
     private static String appId;
     private static String secret;
+    private static String logSource;
     private static Class cls;
     private static String baseUrl;
 
@@ -43,6 +44,14 @@ public class ZwwxInfoManager {
         baseUrl = abaseUrl;
     }
 
+
+    /**
+     * 初始化LogSource
+     */
+    public static void initLogSource(String source){
+        logSource = source;
+    }
+
     /**
      * 获取政务微信用户信息
      * @return
@@ -57,6 +66,10 @@ public class ZwwxInfoManager {
 
     public static String getBaseUrl(){
         return baseUrl;
+    }
+
+    public static String getLogSource(){
+        return logSource;
     }
 
     public static Class getLaunchActivity(){
