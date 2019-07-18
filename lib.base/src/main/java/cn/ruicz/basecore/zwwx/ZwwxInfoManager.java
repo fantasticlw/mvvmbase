@@ -49,16 +49,13 @@ public class ZwwxInfoManager {
      */
     public static ZwwxUserInfo getZwwxUserInfo(){
         if (zwwxUserInfo == null){
-            throw new RuntimeException("必须先调用初始化方法 initBaseUrl()");
+            throw new RuntimeException("必须先调用初始化方法 initZwwxUserInfo()");
         }
         return zwwxUserInfo;
     }
 
 
     public static String getBaseUrl(){
-        if (baseUrl == null){
-            throw new RuntimeException("必须先调用初始化方法 initLaunchActivity()");
-        }
         return baseUrl;
     }
 

@@ -13,6 +13,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.Date;
 
+import cn.ruicz.basecore.BuildConfig;
 import cn.ruicz.basecore.R;
 import cn.ruicz.basecore.base.AppManager;
 import cn.ruicz.basecore.base.BaseActivity;
@@ -75,7 +76,9 @@ public class CommonActivity extends BaseActivity<CommonActBinding, BaseViewModel
                         } else {
                             showShortToast("请先授权，再使用");
                             finish();
-                            AppManager.getAppManager().AppExit();
+                            if (!BuildConfig.DEBUG){
+                                AppManager.getAppManager().AppExit();
+                            }
                         }
                     }
                 });
@@ -176,13 +179,6 @@ public class CommonActivity extends BaseActivity<CommonActBinding, BaseViewModel
                             ZwwxInfoManager.initZwwxUserInfo(zwwxUserInfoBean);
                             startActivity(ZwwxInfoManager.getLaunchActivity());
                             finish();
-
-
-
-//                            if("0".equals(zwwxUserInfoBean.getCode())){
-//                                LogUtils.e(result);
-//                            }
-
                         }
                     }));
                 }

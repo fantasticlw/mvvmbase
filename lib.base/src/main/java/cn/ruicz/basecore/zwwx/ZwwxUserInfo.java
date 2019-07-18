@@ -1,5 +1,7 @@
 package cn.ruicz.basecore.zwwx;
 
+import android.text.TextUtils;
+
 import java.util.List;
 
 /**
@@ -77,7 +79,7 @@ public class ZwwxUserInfo {
         private String userId;
         private String email;
         private List<DepartmentListBean> departmentList;
-        private List<?> extAttr;
+        private List<ExtAttr> extAttr;
 
         public String getHeadPicture() {
             return headPicture;
@@ -159,12 +161,48 @@ public class ZwwxUserInfo {
             this.departmentList = departmentList;
         }
 
-        public List<?> getExtAttr() {
+        public List<ExtAttr> getExtAttr() {
             return extAttr;
         }
 
-        public void setExtAttr(List<?> extAttr) {
+        public void setExtAttr(List<ExtAttr> extAttr) {
             this.extAttr = extAttr;
+        }
+
+        public String getPoliceId(){
+            for (ExtAttr temp : extAttr){
+                if (TextUtils.equals(temp.externalKey, "警号")){
+                    return temp.externalValue;
+                }
+            }
+            return null;
+        }
+
+        public String getJobStatus(){
+            for (ExtAttr temp : extAttr){
+                if (TextUtils.equals(temp.externalKey, "人员状态")){
+                    return temp.externalValue;
+                }
+            }
+            return null;
+        }
+
+        public String getTerminalPhoneNumber(){
+            for (ExtAttr temp : extAttr){
+                if (TextUtils.equals(temp.externalKey, "终端号码")){
+                    return temp.externalValue;
+                }
+            }
+            return null;
+        }
+
+        public String getOrganizationId(){
+            for (ExtAttr temp : extAttr){
+                if (TextUtils.equals(temp.externalKey, "机构代码")){
+                    return temp.externalValue;
+                }
+            }
+            return null;
         }
 
         public static class DepartmentListBean {
@@ -291,6 +329,13 @@ public class ZwwxUserInfo {
             public void setMainDepartment(boolean mainDepartment) {
                 this.mainDepartment = mainDepartment;
             }
+        }
+
+        public static class ExtAttr{
+            String id;
+            String personId;
+            String externalKey;
+            String externalValue;
         }
     }
 }
