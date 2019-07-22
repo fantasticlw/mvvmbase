@@ -9,6 +9,7 @@ public class ZwwxInfoManager {
     private static ZwwxUserInfo zwwxUserInfo;
     private static String appId;
     private static String secret;
+    private static String rczClientId;
     private static String logSource;
     private static Class cls;
     private static String baseUrl;
@@ -53,6 +54,13 @@ public class ZwwxInfoManager {
     }
 
     /**
+     * 初始化rczClientId
+     */
+    public static void initRczClientId(String rczClientId2){
+        rczClientId = rczClientId2;
+    }
+
+    /**
      * 获取政务微信用户信息
      * @return
      */
@@ -91,5 +99,10 @@ public class ZwwxInfoManager {
             throw new RuntimeException("必须先调用初始化方法 initAppIdAndSecret()");
         }
         return secret;
+    }
+
+
+    public static String getRczClientId(){
+        return rczClientId;
     }
 }

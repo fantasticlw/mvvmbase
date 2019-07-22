@@ -44,7 +44,7 @@ public class BaseHttpManager {
      * 获取睿策者token
      */
     public SimpleObserver getRzcToken(Lifecycle lifecycle,String acode,SimpleObserver dialogObserver) {
-        Observable observable = wxService.getRzcToken( acode, "10002");
+        Observable observable = wxService.getRzcToken( acode, ZwwxInfoManager.getRczClientId());
         return toSubscribe(lifecycle,observable, dialogObserver);
     }
 
