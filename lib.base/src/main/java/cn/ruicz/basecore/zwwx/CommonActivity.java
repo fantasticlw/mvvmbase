@@ -2,18 +2,14 @@ package cn.ruicz.basecore.zwwx;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import java.util.Date;
-
-import cn.ruicz.basecore.BuildConfig;
 import cn.ruicz.basecore.R;
 import cn.ruicz.basecore.base.AppManager;
 import cn.ruicz.basecore.base.BaseActivity;
@@ -23,7 +19,7 @@ import cn.ruicz.basecore.http.BaseHttpManager;
 import cn.ruicz.basecore.http.BaseHttpUtils;
 import cn.ruicz.basecore.http.DialogObserver;
 import cn.ruicz.basecore.http.SimpleObserver;
-import cn.ruicz.basecore.utils.TimeUtils;
+import cn.ruicz.basecore.utils.MaterialDialogUtils;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 
@@ -74,11 +70,10 @@ public class CommonActivity extends BaseActivity<CommonActBinding, BaseViewModel
                         if (aBoolean) {
                             checkAcode();
                         } else {
-                            showShortToast("请先授权，再使用");
-                            finish();
-                            if (!BuildConfig.DEBUG){
+                            MaterialDialogUtils.showBasicDialogNoCancel(CommonActivity.this, null,"请先授权，再使用").dismissListener(dialog -> {
+                                finish();
                                 AppManager.getAppManager().AppExit();
-                            }
+                            }).show();
                         }
                     }
                 });
@@ -90,10 +85,14 @@ public class CommonActivity extends BaseActivity<CommonActBinding, BaseViewModel
     private void checkAcode() {
         String launchParam = getIntent().getStringExtra("launchParam");
         if (launchParam != null) {
-            if (launchParam.contains("=")) {
+            if (launchParam.contains("=")) {// 从政务微信工作台界面进入
                 acode = launchParam.substring(launchParam.indexOf("=") + 1);
-                getAccessToken();
-            } else if (launchParam.contains("|")) {
+                if (ZwwxInfoManager.isOldToken()){
+                    getToken();
+                }else {
+                    getAccessToken();
+                }
+            } else if (launchParam.contains("|")) { // 从政务微信消息界面进入
                 acode = launchParam.substring(launchParam.indexOf("|") + 1);
                 params = launchParam.substring(0, launchParam.indexOf("|"));
                 getToken();
@@ -101,15 +100,10 @@ public class CommonActivity extends BaseActivity<CommonActBinding, BaseViewModel
 
         } else {
           //  showDialog("请从政务微信进入！");
-            AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                    .setMessage("请从政务微信进入!").setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                            AppManager.getAppManager().AppExit();
-                        }
-                    });
-            builder.create().show();
+            MaterialDialogUtils.showBasicDialogNoCancel(this, null,"请从政务微信进入！").dismissListener(dialog -> {
+                finish();
+                AppManager.getAppManager().AppExit();
+            }).show();
         }
     }
 
@@ -164,11 +158,10 @@ public class CommonActivity extends BaseActivity<CommonActBinding, BaseViewModel
      * 获取新版用户信息
      */
     public void getNewUserInfo() {
-        BaseHttpManager.newInstance().token(getLifecycle(),ZwwxInfoManager.getAppid(), ZwwxInfoManager.getSecret(), new SimpleObserver<>(this, new Consumer<String>() {
+        BaseHttpManager.newInstance().token(getLifecycle(),ZwwxInfoManager.getAppid(), ZwwxInfoManager.getSecret(), new SimpleObserver<>(this, new Consumer<JSONObject>() {
             @Override
-            public void accept(@NonNull String result) throws Exception {
-                org.json.JSONObject jsonObject = new org.json.JSONObject(result);
-                if ("0".equals(jsonObject.getString("code"))) {
+            public void accept(@NonNull JSONObject jsonObject) throws Exception {
+                if (TextUtils.equals(jsonObject.getString("code"), "0")) {
                     token = jsonObject.getString("data");
                     BaseHttpUtils.wxToken = token;
                     BaseHttpManager.newInstance().getUser(getLifecycle(),acode,  new DialogObserver<>(CommonActivity.this, new Consumer<String>() {
@@ -177,8 +170,9 @@ public class CommonActivity extends BaseActivity<CommonActBinding, BaseViewModel
 
                             ZwwxUserInfo zwwxUserInfoBean = new Gson().fromJson(result, ZwwxUserInfo.class);
                             ZwwxInfoManager.initZwwxUserInfo(zwwxUserInfoBean);
-                            startActivity(ZwwxInfoManager.getLaunchActivity());
+//                            startActivity(MapMainActivity.class);
                             finish();
+
                         }
                     }));
                 }
@@ -200,36 +194,15 @@ public class CommonActivity extends BaseActivity<CommonActBinding, BaseViewModel
 //                    tokenBean.expires_in = jsonObject.get("data").getAsJsonObject().get("expiresIn").getAsInt();
 //                    LocalDataManager.INSTANCE.saveTokenInfo(tokenBean);
 
-                    BaseHttpManager.newInstance().getUser(getLifecycle(),jsonObject.get("data").getAsJsonObject().get("token").getAsString(), acode, "0000070", new SimpleObserver<>(CommonActivity.this, new Consumer<JsonObject>() {
+                    BaseHttpManager.newInstance().getUser(getLifecycle(),jsonObject.get("data").getAsJsonObject().get("token").getAsString(), acode, ZwwxInfoManager.getAppid(), new SimpleObserver<>(CommonActivity.this, new Consumer<JSONObject>() {
                         @Override
-                        public void accept(@NonNull JsonObject result) throws Exception {
-                            if (result.has("code") && TextUtils.equals(result.get("code").getAsString(), "0")) {
+                        public void accept(@NonNull JSONObject result) throws Exception {
+                            if (TextUtils.equals(result.getString("code"), "0")) {
 
-                                if (!TextUtils.isEmpty(params)) {
+                                RczUserInfo userInfo = JSON.parseObject(result.getString("data"), RczUserInfo.class);
+                                ZwwxInfoManager.initUserInfo(userInfo);
 
-                                    String mmid = params.substring(0, params.indexOf("_"));
-                                    String seTime = params.substring(params.indexOf("_") + 1, params.length());
-
-                                    Date sEnd = TimeUtils.string2Date(seTime);
-                                    //Date sNow = TimeUtils.getNowTimeDate();
-                                    Date sNow = TimeUtils.getNowDate();
-
-                                    int outDate;
-                                    if (sNow.before(sEnd)) {
-                                        outDate = 1;
-                                    } else {
-                                        outDate = 0;
-                                    }
-
-
-//                                    startActivity(MapMainActivity.class);
-                                    finish();
-                                }
-
-                            } else {
-                                if (result.has("desc")) {
-                                    showDialog(result.get("desc").getAsString());
-                                }
+                                finish();
                             }
                         }
                     }));

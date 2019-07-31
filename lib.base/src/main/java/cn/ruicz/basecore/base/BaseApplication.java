@@ -2,6 +2,7 @@ package cn.ruicz.basecore.base;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.LauncherActivity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
@@ -10,6 +11,7 @@ import cn.ruicz.basecore.BuildConfig;
 import cn.ruicz.basecore.LibBase;
 import cn.ruicz.basecore.utils.AppUtils;
 import cn.ruicz.basecore.utils.Utils;
+import cn.ruicz.basecore.zwwx.ZwwxInfoManager;
 import cn.ruicz.basecore.zwwx.ZwwxUserInfo;
 
 /**
@@ -26,6 +28,28 @@ public class BaseApplication extends Application {
         setApplication(this);
 
         LibBase.builder(this).spname(AppUtils.getAppPackageName()).debug(BuildConfig.DEBUG).install();
+
+        // 配置appid和secret
+        //ZwwxInfoManager.initAppIdAndSecret("2000444", "Y2MzN2M0M2UtZWM2MC00ZGY2LTg2OGUtYWUyODAyYWZkNjdh");
+
+        // 配置政务微信启动跳转activity
+        //ZwwxInfoManager.initLaunchActivity(LauncherActivity.class);
+
+        // 配置日志source
+        //ZwwxInfoManager.initLogSource("946");
+
+        // 配置睿策者接口地址
+        //ZwwxInfoManager.initBaseUrl("http://xxxx");
+
+        // 配置睿策者接口clientId
+        //ZwwxInfoManager.initRczClientId("100000");
+
+        // 获取政务微信用户信息
+        //ZwwxInfoManager.getZwwxUserInfo();过时
+        //ZwwxInfoManager.getUserData();   新版用户信息
+        //ZwwxInfoManager.getUserInfo();   旧版用户信息
+
+
     }
 
     /**

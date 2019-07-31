@@ -7,12 +7,17 @@ package cn.ruicz.basecore.zwwx;
 public class ZwwxInfoManager {
 
     private static ZwwxUserInfo zwwxUserInfo;
+    private static RczUserInfo userInfo;
     private static String appId;
     private static String secret;
     private static String rczClientId;
     private static String logSource;
     private static Class cls;
     private static String baseUrl;
+    private static boolean oldToken;
+
+    private static ZwwxUserInfo.DataBean wxUserInfoData;
+    private static RczUserInfo.DataBean userInfoData;
 
     /**
      * 初始化政务微信用户信息
@@ -20,6 +25,12 @@ public class ZwwxInfoManager {
      */
     public static void initZwwxUserInfo(ZwwxUserInfo o){
         zwwxUserInfo = o;
+        wxUserInfoData = zwwxUserInfo.getData();
+    }
+
+    public static void initUserInfo(RczUserInfo o){
+        userInfo = o;
+        userInfoData = userInfo.getData();
     }
 
     /**
@@ -71,7 +82,6 @@ public class ZwwxInfoManager {
         return zwwxUserInfo;
     }
 
-
     public static String getBaseUrl(){
         return baseUrl;
     }
@@ -105,4 +115,29 @@ public class ZwwxInfoManager {
     public static String getRczClientId(){
         return rczClientId;
     }
+
+    public static void initOld(boolean isOld){
+        oldToken = isOld;
+    }
+
+    public static boolean isOldToken(){
+        return oldToken;
+    }
+
+
+    public static ZwwxUserInfo.DataBean getUserData(){
+        if (wxUserInfoData == null){
+            throw new RuntimeException("必须先调用初始化方法 initZwwxUserInfo()");
+        }
+        return wxUserInfoData;
+    }
+
+    public static RczUserInfo.DataBean getUserInfo(){
+        if (userInfoData == null){
+            throw new RuntimeException("必须先调用初始化方法 initZwwxUserInfo()");
+        }
+        return userInfoData;
+    }
+
+
 }
