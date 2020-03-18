@@ -1,19 +1,25 @@
 package cn.ruicz.basecore.http;
 
 import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleOwner;
 import android.text.TextUtils;
+
 import com.uber.autodispose.AutoDispose;
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+
+import cn.ruicz.basecore.http.factory.StringConverterFactory;
+import cn.ruicz.basecore.utils.NetworkUtils;
+import cn.ruicz.basecore.utils.Utils;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import cn.ruicz.basecore.http.factory.StringConverterFactory;
+import okhttp3.Cache;
+import okhttp3.CacheControl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -59,7 +65,12 @@ public class BaseHttpUtils {
         return s;
     }
 
+
     public static <T> T createApiService(Class<T> cls, String baseUrl, Interceptor... interceptors){
+        return createApiService(cls, baseUrl, false, 0, interceptors);
+    }
+
+    public static <T> T createApiService(Class<T> cls, String baseUrl, boolean isCache, int secend, Interceptor... interceptors){
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY); // 设置日志级别
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
@@ -82,7 +93,31 @@ public class BaseHttpUtils {
                 .connectTimeout(120, TimeUnit.SECONDS)   // 连接超时时间
                 .writeTimeout(180, TimeUnit.SECONDS)    // 写入服务器超时时间
                 .readTimeout(180, TimeUnit.SECONDS);     // 读取数据超时时间
-//                .cache()  // TODO: 2017/3/19  设置缓存
+
+        if (isCache) {
+            File cacheFile = new File(Utils.getApp().getExternalCacheDir(), "netcache");
+            Cache cache = new Cache(cacheFile, 1024 * 1024 * 10);
+            builder.addInterceptor(new Interceptor() {
+                @Override
+                public Response intercept(Chain chain) throws IOException {
+                    Request request = chain.request();
+                    if (!NetworkUtils.isConnected()) {
+                        request = request.newBuilder()
+                                .cacheControl(CacheControl.FORCE_CACHE)
+                                .build();
+                    }
+                    Response response = chain.proceed(request);
+                    if (NetworkUtils.isConnected()) {
+                        // 有网络时 设置缓存超时时间0个小时
+                        response.newBuilder()
+                                .header("Cache-Control", "public, max-age=" + secend)
+                                .removeHeader("Pragma")// 清除头信息，因为服务器如果不支持，会返回一些干扰信息，不清除下面无法生效
+                                .build();
+                    }
+                    return response;
+                }
+            }).cache(cache);
+        }
 
         // 添加拦截器
         for(Interceptor interceptor : interceptors){

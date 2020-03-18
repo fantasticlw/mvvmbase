@@ -36,7 +36,7 @@ public class LoginViewModel extends BaseViewModel {
     //封装一个界面发生改变的观察者
     public UIChangeObservable uc = new UIChangeObservable();
 
-    public class UIChangeObservable {
+    public class UIChangeObservable extends UIChangeLiveData{
         //密码开关观察者
         public ObservableBoolean pSwitchObservable = new ObservableBoolean(false);
     }

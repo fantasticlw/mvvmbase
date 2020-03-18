@@ -168,11 +168,16 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
             loadingLayout = LoadingLayout.wrap(view);
             loadingLayout.setErrorImage(R.mipmap.error);
             loadingLayout.setEmptyImage(R.mipmap.empty);
+            loadingLayout.setLoading(R.layout.shimmer_layout);
             ViewGroup.LayoutParams lp = loadingLayout.getLayoutParams();
             lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
             lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
             loadingLayout.setLayoutParams(lp);
         }
+        return loadingLayout;
+    }
+
+    public LoadingLayout getLoadingLayout(){
         return loadingLayout;
     }
 

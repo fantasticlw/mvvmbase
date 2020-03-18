@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <cn.ruicz.basecore.widget.ShimmerLayout
+        android:id="@+id/shimmer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        app:shimmer_color="@color/shimmer_color"
+        app:shimmer_background_color="@color/shimmer_background_color"
+        app:shimmer_auto_start="true">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.constraint.ConstraintLayout
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+                <View
+                    android:id="@+id/row1_view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginRight="150dp"
+                    android:background="@color/shimmer_background_color"/>
+
+                <View
+                    android:id="@+id/row1_view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    app:layout_constraintTop_toBottomOf="@+id/row1_view1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="150dp"
+                    android:background="@color/shimmer_background_color"/>
+
+
+                <View
+                    android:layout_width="60dp"
+                    android:layout_height="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/row1_view2"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/shimmer_background_color"/>
+
+
+                <View
+                    android:layout_width="100dp"
+                    android:layout_height="80dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:background="@color/shimmer_background_color"/>
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+                <View
+                    android:id="@+id/row2_view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_marginRight="150dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:background="@color/shimmer_background_color"/>
+
+                <View
+                    android:id="@+id/row2_view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_marginRight="150dp"
+                    app:layout_constraintTop_toBottomOf="@+id/row2_view1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/shimmer_background_color"/>
+
+
+                <View
+                    android:layout_width="60dp"
+                    android:layout_height="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/row2_view2"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/shimmer_background_color"/>
+
+
+                <View
+                    android:layout_width="100dp"
+                    android:layout_height="80dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:background="@color/shimmer_background_color"/>
+
+            </android.support.constraint.ConstraintLayout>
+
+
+            <android.support.constraint.ConstraintLayout
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+                <View
+                    android:id="@+id/row3_view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_marginRight="150dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:background="@color/shimmer_background_color"/>
+
+                <View
+                    android:id="@+id/row3_view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_marginRight="150dp"
+                    app:layout_constraintTop_toBottomOf="@+id/row3_view1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/shimmer_background_color"/>
+
+
+                <View
+                    android:layout_width="60dp"
+                    android:layout_height="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/row3_view2"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/shimmer_background_color"/>
+
+
+                <View
+                    android:layout_width="100dp"
+                    android:layout_height="80dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:background="@color/shimmer_background_color"/>
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+                <View
+                    android:id="@+id/row4_view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_marginRight="150dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:background="@color/shimmer_background_color"/>
+
+                <View
+                    android:id="@+id/row4_view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_marginRight="150dp"
+                    app:layout_constraintTop_toBottomOf="@+id/row4_view1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/shimmer_background_color"/>
+
+
+                <View
+                    android:layout_width="60dp"
+                    android:layout_height="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/row4_view2"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/shimmer_background_color"/>
+
+
+                <View
+                    android:layout_width="100dp"
+                    android:layout_height="80dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:background="@color/shimmer_background_color"/>
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+                <View
+                    android:id="@+id/row5_view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_marginRight="150dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:background="@color/shimmer_background_color"/>
+
+                <View
+                    android:id="@+id/row5_view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_marginRight="150dp"
+                    app:layout_constraintTop_toBottomOf="@+id/row5_view1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/shimmer_background_color"/>
+
+
+                <View
+                    android:layout_width="60dp"
+                    android:layout_height="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/row5_view2"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/shimmer_background_color"/>
+
+
+                <View
+                    android:layout_width="100dp"
+                    android:layout_height="80dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:background="@color/shimmer_background_color"/>
+
+            </android.support.constraint.ConstraintLayout>
+
+
+            <android.support.constraint.ConstraintLayout
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+                <View
+                    android:id="@+id/row6_view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_marginRight="150dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:background="@color/shimmer_background_color"/>
+
+                <View
+                    android:id="@+id/row6_view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_marginRight="150dp"
+                    app:layout_constraintTop_toBottomOf="@+id/row6_view1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/shimmer_background_color"/>
+
+
+                <View
+                    android:layout_width="60dp"
+                    android:layout_height="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/row6_view2"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/shimmer_background_color"/>
+
+
+                <View
+                    android:layout_width="100dp"
+                    android:layout_height="80dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:background="@color/shimmer_background_color"/>
+
+            </android.support.constraint.ConstraintLayout>
+
+
+            <android.support.constraint.ConstraintLayout
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+                <View
+                    android:id="@+id/row7_view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_marginRight="150dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:background="@color/shimmer_background_color"/>
+
+                <View
+                    android:id="@+id/row7_view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_marginRight="150dp"
+                    app:layout_constraintTop_toBottomOf="@+id/row7_view1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/shimmer_background_color"/>
+
+
+                <View
+                    android:layout_width="60dp"
+                    android:layout_height="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/row7_view2"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/shimmer_background_color"/>
+
+
+                <View
+                    android:layout_width="100dp"
+                    android:layout_height="80dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:background="@color/shimmer_background_color"/>
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+                <View
+                    android:id="@+id/view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_marginRight="150dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:background="@color/shimmer_background_color"/>
+
+                <View
+                    android:id="@+id/row8_view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_marginRight="150dp"
+                    app:layout_constraintTop_toBottomOf="@+id/view1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/shimmer_background_color"/>
+
+
+                <View
+                    android:layout_width="60dp"
+                    android:layout_height="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/row8_view2"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/shimmer_background_color"/>
+
+
+                <View
+                    android:layout_width="100dp"
+                    android:layout_height="80dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:background="@color/shimmer_background_color"/>
+
+            </android.support.constraint.ConstraintLayout>
+
+        </LinearLayout>
+
+    </cn.ruicz.basecore.widget.ShimmerLayout>
+</LinearLayout>

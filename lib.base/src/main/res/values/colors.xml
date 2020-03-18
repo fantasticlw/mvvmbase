@@ -69,4 +69,6 @@
     <color name="viewfinder_laser">#ffff0000</color>
 
     <color name="zwwx_m">#5077AA</color>
+    <color name="shimmer_color">#d0d0d0</color>
+    <color name="shimmer_background_color">#E0E0E0</color>
 </resources>

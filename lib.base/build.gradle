@@ -51,7 +51,7 @@ dependencies {
     //rx权限请求
     api rootProject.ext.dependencies.rxpermissions
     //network
-    api rootProject.ext.dependencies.okhttp
+    //api rootProject.ext.dependencies.okhttp
     api rootProject.ext.dependencies["okhttp-logging"]
     api rootProject.ext.dependencies.retrofit
     api rootProject.ext.dependencies["converter-gson"]

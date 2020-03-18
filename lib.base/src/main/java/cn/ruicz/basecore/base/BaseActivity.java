@@ -134,11 +134,17 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
             loadingLayout = LoadingLayout.wrap(view);
             loadingLayout.setErrorImage(R.mipmap.error);
             loadingLayout.setEmptyImage(R.mipmap.empty);
+            loadingLayout.setLoading(R.layout.shimmer_layout);
             ViewGroup.LayoutParams lp = loadingLayout.getLayoutParams();
             lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
             lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
             loadingLayout.setLayoutParams(lp);
         }
+        return loadingLayout;
+    }
+
+
+    public LoadingLayout getLoadingLayout(){
         return loadingLayout;
     }
 
@@ -184,6 +190,21 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
      **/
     //注册ViewModel与View的契约UI回调事件
     private void registorUIChangeLiveDataCallBack() {
+
+        //加载对话框显示
+        viewModel.getUC().getShowLoadingEvent().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                loadingLayout.showLoading();
+            }
+        });
+        //加载对话框消失
+        viewModel.getUC().getDismissLoadingEvent().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                loadingLayout.showContent();
+            }
+        });
         //加载对话框显示
         viewModel.getUC().getShowDialogEvent().observe(this, new Observer<String>() {
             @Override
