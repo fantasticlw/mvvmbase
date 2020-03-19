@@ -35,6 +35,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     @Override
     public void init() {
 
+        setSwipeBackEnable(false);
     }
 
     @Override

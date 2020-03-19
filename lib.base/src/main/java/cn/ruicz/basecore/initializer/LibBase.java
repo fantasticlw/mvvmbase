@@ -1,9 +1,10 @@
-package cn.ruicz.basecore;
+package cn.ruicz.basecore.initializer;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 
+import cn.ruicz.basecore.R;
 import cn.ruicz.basecore.crash.CaocConfig;
 import cn.ruicz.basecore.manager.SPManager;
 import cn.ruicz.basecore.utils.ActivityUtils;

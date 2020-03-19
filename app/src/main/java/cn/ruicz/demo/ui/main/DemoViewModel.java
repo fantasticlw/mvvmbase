@@ -34,7 +34,7 @@ public class DemoViewModel extends BaseViewModel {
     public BindingCommand netWorkClick = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            startContainerActivity(NetWorkFragment.class.getCanonicalName());
+            startFragment(new NetWorkFragment());
         }
     });
     //进入TabBarActivity
@@ -55,7 +55,7 @@ public class DemoViewModel extends BaseViewModel {
     public BindingCommand formSbmClick = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            startContainerActivity(FormFragment.class.getCanonicalName());
+            startFragment(new FormFragment());
         }
     });
     //表单修改点击事件
@@ -72,7 +72,9 @@ public class DemoViewModel extends BaseViewModel {
             //传入实体数据
             Bundle mBundle = new Bundle();
             mBundle.putParcelable("entity", entity);
-            startContainerActivity(FormFragment.class.getCanonicalName(), mBundle);
+            FormFragment formFragment = new FormFragment();
+            formFragment.setArguments(mBundle);
+            startFragment(formFragment);
         }
     });
     //权限申请

@@ -2,17 +2,14 @@ package cn.ruicz.basecore.base;
 
 import android.app.Activity;
 import android.app.Application;
-import android.app.LauncherActivity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
 
 import cn.ruicz.basecore.BuildConfig;
-import cn.ruicz.basecore.LibBase;
+import cn.ruicz.basecore.initializer.LibBase;
 import cn.ruicz.basecore.utils.AppUtils;
 import cn.ruicz.basecore.utils.Utils;
-import cn.ruicz.basecore.zwwx.ZwwxInfoManager;
-import cn.ruicz.basecore.zwwx.ZwwxUserInfo;
 
 /**
  * Created by goldze on 2017/6/15.

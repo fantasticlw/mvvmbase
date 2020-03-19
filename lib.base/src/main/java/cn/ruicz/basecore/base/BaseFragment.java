@@ -23,18 +23,24 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Map;
+import java.util.Objects;
 
 import cn.ruicz.basecore.R;
 import cn.ruicz.basecore.base.BaseViewModel.ParameterField;
 import cn.ruicz.basecore.bus.Messenger;
+import cn.ruicz.basecore.initializer.SwipeBackConfig;
 import cn.ruicz.basecore.utils.MaterialDialogUtils;
 import ezy.ui.layout.LoadingLayout;
 import me.yokeyword.fragmentation.SupportFragment;
+import me.yokeyword.fragmentation.SwipeBackLayout;
+import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
+import me.yokeyword.fragmentation.anim.FragmentAnimator;
+import me.yokeyword.fragmentation_swipeback.SwipeBackFragment;
 
 /**
  * Created by goldze on 2017/6/15.
  */
-public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseViewModel> extends SupportFragment implements IBaseActivity , Toolbar.OnMenuItemClickListener {
+public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseViewModel> extends SwipeBackFragment implements IBaseActivity , Toolbar.OnMenuItemClickListener {
     protected V binding;
     protected VM viewModel;
     protected int viewModelId;
@@ -88,7 +94,7 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
         getLifecycle().addObserver(viewModel);
         //注入RxLifecycle生命周期
         viewModel.injectLifecycleOwner(this);
-        return binding.getRoot();
+        return attachToSwipeBack(binding.getRoot());
     }
 
     @Override
@@ -99,6 +105,8 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        initSwipeBackConfig();
         //私有的ViewModel与View的契约事件回调逻辑
         registorUIChangeLiveDataCallBack();
         initToolbar();
@@ -160,6 +168,17 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         return false;
+    }
+
+    /**
+     * 初始化滑动返回layout
+     */
+    public void initSwipeBackConfig(){
+        setSwipeBackEnable(SwipeBackConfig.getInstance().isEnableGesture());// 是否允许滑动
+        setEdgeLevel(SwipeBackConfig.getInstance().getEdgeLevel());// 滑动范围
+        setParallaxOffset(SwipeBackConfig.getInstance().getParallaxOffset()); // （类iOS）滑动退出视觉差，默认0.3
+        getSwipeBackLayout().setEdgeOrientation(SwipeBackConfig.getInstance().getEdgeOrientation());    // EDGE_LEFT(默认),EDGE_ALL
+        getSwipeBackLayout().setSwipeAlpha(SwipeBackConfig.getInstance().getSwipeAlpha());    // 滑动中，设置上一个页面View的阴影透明程度度，默认0.5f
     }
 
     // 初始化loadinglayout
@@ -230,31 +249,40 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
             public void onChanged(@Nullable Map<String, Object> params) {
                 Class<?> clz  = (Class<?>) params.get(ParameterField.CLASS);
                 Bundle bundle = (Bundle) params.get(ParameterField.BUNDLE);
-                int request   = (int) params.get(ParameterField.RESULTCODE);
-                onActivityForResult(clz, request, bundle);
+                int request = (int) params.get(ParameterField.RESULTCODE);
+                startActivityForResult(clz, request, bundle);
             }
         });
         //跳入新页面
-        viewModel.getUC().getStartContainerFragmentEvent().observe(this, new Observer<Map<String, Object>>() {
+        viewModel.getUC().getStartFragmentEvent().observe(this, new Observer<Map<String, Object>>() {
             @Override
             public void onChanged(@Nullable Map<String, Object> params) {
                 BaseFragment baseFragment  = (BaseFragment) params.get(ParameterField.FRAGMENT);
                 int lcode = (int) params.get(ParameterField.LANUCHCODE);
-                onStartFragment(baseFragment, lcode);
+                startFragment(baseFragment, lcode);
+            }
+        });
+        //跳入新页面
+        viewModel.getUC().getStartFragmentForResultEvent().observe(this, new Observer<Map<String, Object>>() {
+            @Override
+            public void onChanged(@Nullable Map<String, Object> params) {
+                BaseFragment baseFragment  = (BaseFragment) params.get(ParameterField.FRAGMENT);
+                int request = (int) params.get(ParameterField.RESULTCODE);
+                startFragmentForResult(baseFragment, request);
             }
         });
         //关闭界面
         viewModel.getUC().getFinishEvent().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
-                getActivity().finish();
+                Objects.requireNonNull(getActivity()).finish();
             }
         });
         //关闭上一层
         viewModel.getUC().getOnBackPressedEvent().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
-                getActivity().onBackPressed();
+                Objects.requireNonNull(getActivity()).onBackPressed();
             }
         });
     }
@@ -297,13 +325,21 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
         startActivity(intent);
     }
 
-    public void onActivityForResult(Class<?> clz, int requestCode, Bundle bundle) {
+    public void startActivityForResult(Class<?> clz, int requestCode, Bundle bundle) {
         Intent intent = new Intent(getContext(), clz);
         startActivityForResult(intent, requestCode, bundle);
     }
 
-    public void onStartFragment(BaseFragment fragment, int launchMode){
+    public void startFragmentForResult(BaseFragment fragment, int requestCode){
+        startForResult(fragment, requestCode);
+    }
+
+    public void startFragment(BaseFragment fragment, int launchMode){
         start(fragment, launchMode);
+    }
+
+    public void startFragment(BaseFragment fragment){
+        start(fragment);
     }
 
     /**
@@ -381,5 +417,10 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
      */
     public <T extends ViewModel> T createViewModel(FragmentActivity activity, Class<T> cls) {
         return ViewModelProviders.of(activity).get(cls);
+    }
+
+    @Override
+    public FragmentAnimator onCreateFragmentAnimator() {
+        return new DefaultHorizontalAnimator();
     }
 }

@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.ruicz.basecore.bus.event.SingleLiveEvent;
+import me.yokeyword.fragmentation.ISupportFragment;
 
 /**
  * Created by goldze on 2017/6/15.
@@ -45,16 +46,21 @@ public class BaseViewModel extends AndroidViewModel implements IBaseViewModel {
         return uc;
     }
 
+
+    public void showToast(String str){
+        Toast.makeText(getApplication(), str, Toast.LENGTH_SHORT).show();
+    }
+
     public void showDialog() {
         showDialog("请稍后...");
     }
 
     public void showDialog(String title) {
-        uc.showDialogEvent.postValue(title);
+        uc.getShowDialogEvent().postValue(title);
     }
 
     public void dismissDialog() {
-        uc.dismissDialogEvent.call();
+        uc.getDismissDialogEvent().call();
     }
 
     /**
@@ -78,7 +84,7 @@ public class BaseViewModel extends AndroidViewModel implements IBaseViewModel {
         if (bundle != null) {
             params.put(ParameterField.BUNDLE, bundle);
         }
-        uc.startActivityEvent.postValue(params);
+        uc.getStartActivityEvent().postValue(params);
     }
 
     /**
@@ -106,52 +112,26 @@ public class BaseViewModel extends AndroidViewModel implements IBaseViewModel {
             params.put(ParameterField.BUNDLE, bundle);
         }
 
-        uc.startActivityForResultEvent.postValue(params);
+        uc.getStartActivityForResultEvent().postValue(params);
     }
 
-
-    /**
-     * 跳转容器页面
-     *
-     * @param canonicalName 规范名 : Fragment.class.getCanonicalName()
-     */
-    public void startContainerActivity(String canonicalName) {
-        startContainerActivity(canonicalName, null);
-    }
-
-    /**
-     * 跳转容器页面
-     *
-     * @param canonicalName 规范名 : Fragment.class.getCanonicalName()
-     * @param bundle        跳转所携带的信息
-     */
-    public void startContainerActivity(String canonicalName, Bundle bundle) {
-        Map<String, Object> params = new HashMap<>();
-        params.put(ParameterField.CANONICAL_NAME, canonicalName);
-        if (bundle != null) {
-            params.put(ParameterField.BUNDLE, bundle);
-        }
-        uc.startContainerActivityEvent.postValue(params);
-    }
-
-    public void onStartFragmentForResult(BaseFragment fragment, Bundle bundle){
+    public void startFragmentForResult(BaseFragment fragment, int requestCode){
         Map<String, Object> params = new HashMap<>();
         params.put(ParameterField.FRAGMENT, fragment);
-        if (null != bundle) {
-            params.put(ParameterField.BUNDLE, bundle);
-        }
-        uc.startContainerFragmentEvent.postValue(params);
+        params.put(ParameterField.RESULTCODE, requestCode);
+        uc.getStartFragmentForResultEvent().postValue(params);
     }
 
-    public void onStartFragment(BaseFragment fragment, int luanchcode){
+
+    public void startFragment(BaseFragment fragment, int launchcode){
         Map<String, Object> params = new HashMap<>();
         params.put(ParameterField.FRAGMENT, fragment);
-        params.put(ParameterField.LANUCHCODE, luanchcode);
-        uc.startContainerFragmentEvent.postValue(params);
+        params.put(ParameterField.LANUCHCODE, launchcode);
+        uc.getStartFragmentEvent().postValue(params);
     }
 
-    public void onStartFragment(BaseFragment fragment){
-        onStartFragment(fragment, 0);
+    public void startFragment(BaseFragment fragment){
+        startFragment(fragment, ISupportFragment.STANDARD);
     }
 
     /**
@@ -211,24 +191,24 @@ public class BaseViewModel extends AndroidViewModel implements IBaseViewModel {
         private SingleLiveEvent<Boolean> dismissLoadingEvent;
         private SingleLiveEvent<Map<String, Object>> startActivityEvent;
         private SingleLiveEvent<Map<String, Object>> startActivityForResultEvent;
-        private SingleLiveEvent<Map<String, Object>> startContainerActivityEvent;
-        private SingleLiveEvent<Map<String, Object>> startContainerFragmentEvent;
-        private SingleLiveEvent finishEvent;
-        private SingleLiveEvent onBackPressedEvent;
+        private SingleLiveEvent<Map<String, Object>> startFragmentEvent;
+        private SingleLiveEvent<Map<String, Object>> startFragmentForResultEvent;
+        private SingleLiveEvent<Boolean> finishEvent;
+        private SingleLiveEvent<Boolean> onBackPressedEvent;
 
         public SingleLiveEvent<String> getShowDialogEvent() {
             return showDialogEvent = createLiveData(showDialogEvent);
         }
 
-        public SingleLiveEvent getDismissDialogEvent() {
+        public SingleLiveEvent<Boolean> getDismissDialogEvent() {
             return dismissDialogEvent = createLiveData(dismissDialogEvent);
         }
 
-        public SingleLiveEvent getShowLoadingEvent() {
+        public SingleLiveEvent<Boolean> getShowLoadingEvent() {
             return showLoadingEvent = createLiveData(showLoadingEvent);
         }
 
-        public SingleLiveEvent getDismissLoadingEvent() {
+        public SingleLiveEvent<Boolean> getDismissLoadingEvent() {
             return dismissLoadingEvent = createLiveData(dismissLoadingEvent);
         }
 
@@ -240,25 +220,25 @@ public class BaseViewModel extends AndroidViewModel implements IBaseViewModel {
             return startActivityForResultEvent = createLiveData(startActivityForResultEvent);
         }
 
-        public SingleLiveEvent<Map<String, Object>> getStartContainerActivityEvent() {
-            return startContainerActivityEvent = createLiveData(startContainerActivityEvent);
+        public SingleLiveEvent<Map<String, Object>> getStartFragmentEvent() {
+            return startFragmentEvent = createLiveData(startFragmentEvent);
         }
 
-        public SingleLiveEvent<Map<String, Object>> getStartContainerFragmentEvent() {
-            return startContainerFragmentEvent = createLiveData(startContainerFragmentEvent);
+        public SingleLiveEvent<Map<String, Object>> getStartFragmentForResultEvent() {
+            return startFragmentForResultEvent = createLiveData(startFragmentForResultEvent);
         }
 
-        public SingleLiveEvent getFinishEvent() {
+        public SingleLiveEvent<Boolean> getFinishEvent() {
             return finishEvent = createLiveData(finishEvent);
         }
 
-        public SingleLiveEvent getOnBackPressedEvent() {
+        public SingleLiveEvent<Boolean> getOnBackPressedEvent() {
             return onBackPressedEvent = createLiveData(onBackPressedEvent);
         }
 
-        private SingleLiveEvent createLiveData(SingleLiveEvent liveData) {
+        private <T> SingleLiveEvent<T> createLiveData(SingleLiveEvent<T> liveData) {
             if (liveData == null) {
-                liveData = new SingleLiveEvent();
+                liveData = new SingleLiveEvent<>();
             }
             return liveData;
         }
@@ -271,14 +251,9 @@ public class BaseViewModel extends AndroidViewModel implements IBaseViewModel {
 
     public static class ParameterField {
         public static String CLASS = "CLASS";
-        public static String CANONICAL_NAME = "CANONICAL_NAME";
         public static String BUNDLE = "BUNDLE";
         public static String RESULTCODE = "RESULTCODE";
         public static String FRAGMENT = "FRAGMENT";
         public static String LANUCHCODE = "LANUCHCODE";
-    }
-
-    public void onShowToast(String str){
-        Toast.makeText(getApplication(), str, Toast.LENGTH_SHORT).show();
     }
 }

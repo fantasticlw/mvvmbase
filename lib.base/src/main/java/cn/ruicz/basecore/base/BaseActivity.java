@@ -24,12 +24,14 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 import cn.ruicz.basecore.R;
+import cn.ruicz.basecore.initializer.SwipeBackConfig;
 import cn.ruicz.basecore.utils.ToastUtils;
 import cn.ruicz.basecore.utils.MaterialDialogUtils;
 import cn.ruicz.basecore.base.BaseViewModel.ParameterField;
 import cn.ruicz.basecore.bus.Messenger;
 import ezy.ui.layout.LoadingLayout;
 import me.yokeyword.fragmentation.SupportActivity;
+import me.yokeyword.fragmentation_swipeback.SwipeBackActivity;
 
 
 /**
@@ -37,7 +39,7 @@ import me.yokeyword.fragmentation.SupportActivity;
  * 一个拥有DataBinding框架的基Activity
  * 这里根据项目业务可以换成你自己熟悉的BaseActivity, 但是需要继承RxAppCompatActivity,方便LifecycleProvider管理生命周期
  */
-public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseViewModel> extends SupportActivity implements IBaseActivity, Toolbar.OnMenuItemClickListener {
+public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseViewModel> extends SwipeBackActivity implements IBaseActivity, Toolbar.OnMenuItemClickListener {
     protected V binding;
     protected VM viewModel;
     protected int viewModelId;
@@ -48,6 +50,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initSwipeBackConfig();
         //私有的初始化Databinding和ViewModel方法
         initViewDataBinding(savedInstanceState);
         //私有的ViewModel与View的契约事件回调逻辑
@@ -126,6 +129,17 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         return false;
+    }
+
+    /**
+     * 初始化滑动返回layout
+     */
+    public void initSwipeBackConfig(){
+        setSwipeBackEnable(SwipeBackConfig.getInstance().isEnableGesture());// 是否允许滑动
+        setEdgeLevel(SwipeBackConfig.getInstance().getEdgeLevel());// 滑动范围
+        getSwipeBackLayout().setParallaxOffset(SwipeBackConfig.getInstance().getParallaxOffset()); // （类iOS）滑动退出视觉差，默认0.3
+        getSwipeBackLayout().setEdgeOrientation(SwipeBackConfig.getInstance().getEdgeOrientation());    // EDGE_LEFT(默认),EDGE_ALL
+        getSwipeBackLayout().setSwipeAlpha(SwipeBackConfig.getInstance().getSwipeAlpha());    // 滑动中，设置上一个页面View的阴影透明程度度，默认0.5f
     }
 
     // 初始化loadinglayout
@@ -235,7 +249,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
                 Class<?> clz  = (Class<?>) params.get(ParameterField.CLASS);
                 int request   = (int) params.get(ParameterField.RESULTCODE);
                 Bundle bundle = (Bundle) params.get(ParameterField.BUNDLE);
-                onActivityForResult(clz, request, bundle);
+                startActivityForResult(clz, request, bundle);
             }
         });
         //关闭界面
@@ -321,7 +335,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         startActivity(intent);
     }
 
-    public void onActivityForResult(Class<?> clz, int requestCode, Bundle bundle) {
+    public void startActivityForResult(Class<?> clz, int requestCode, Bundle bundle) {
         Intent intent = new Intent(this, clz);
         intent.setClass(this, clz);
         if (bundle != null) {

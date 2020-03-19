@@ -1,5 +1,6 @@
 package cn.ruicz.basecore.binding.viewadapter.view;
 
+import android.annotation.SuppressLint;
 import android.databinding.BindingAdapter;
 import android.view.View;
 
@@ -24,6 +25,7 @@ public class ViewAdapter {
      * onClickCommand 绑定的命令,
      * isThrottleFirst 是否开启防止过快点击
      */
+    @SuppressLint("CheckResult")
     @BindingAdapter(value = {"onClickCommand", "isThrottleFirst"}, requireAll = false)
     public static void onClickCommand(View view, final BindingCommand clickCommand, final boolean isThrottleFirst) {
         if (isThrottleFirst) {
@@ -53,6 +55,7 @@ public class ViewAdapter {
     /**
      * view的onLongClick事件绑定
      */
+    @SuppressLint("CheckResult")
     @BindingAdapter(value = {"onLongClickCommand"}, requireAll = false)
     public static void onLongClickCommand(View view, final BindingCommand clickCommand) {
         RxView.longClicks(view)

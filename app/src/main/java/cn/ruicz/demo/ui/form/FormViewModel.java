@@ -66,7 +66,8 @@ public class FormViewModel extends BaseViewModel {
         //初始化标题栏
         titleViewModel.rightTextVisibility.set(View.VISIBLE);
         titleViewModel.rightText.set("更多");
-        if (TextUtils.isEmpty(entity.getId())) {
+        if (entity == null) {
+            entity = new FormEntity();
             //ID为空是新增
             titleViewModel.titleText.set("表单提交");
         } else {

@@ -9,7 +9,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.ruicz.basecore.LibBase;
+import cn.ruicz.basecore.initializer.LibBase;
 import cn.ruicz.basecore.R;
 import cn.ruicz.basecore.adapter.CommontAdapter;
 import cn.ruicz.basecore.adapter.OnItemClickListener;

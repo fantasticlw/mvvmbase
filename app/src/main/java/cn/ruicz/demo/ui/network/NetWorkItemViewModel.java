@@ -42,7 +42,9 @@ public class NetWorkItemViewModel extends ItemViewModel<NetWorkViewModel> {
                 //跳转到详情界面,传入条目的实体对象
                 Bundle mBundle = new Bundle();
                 mBundle.putParcelable("entity", entity.get());
-                viewModel.startContainerActivity(DetailFragment.class.getCanonicalName(), mBundle);
+                DetailFragment detailFragment = new DetailFragment();
+                detailFragment.setArguments(mBundle);
+                viewModel.startFragment(detailFragment);
             }
         }
     });

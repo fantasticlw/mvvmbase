@@ -32,7 +32,7 @@ public class TitleViewModel extends AndroidViewModel {
         @Override
         public void call() {
             //统一处理返回事件
-            AppManager.getAppManager().currentActivity().finish();
+            AppManager.getAppManager().currentActivity().onBackPressed();
         }
     });
     //右边文字点击事件
