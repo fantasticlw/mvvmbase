@@ -607,7 +607,7 @@ public class SwipeBackLayout extends FrameLayout {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         try {
-            mHelper.processTouchEvent(event);
+            if (!mEnable) mHelper.processTouchEvent(event);
             return true;
         } catch (Exception ignored) {
             ignored.printStackTrace();
