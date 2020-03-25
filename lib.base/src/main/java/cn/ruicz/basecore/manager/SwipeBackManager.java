@@ -1,21 +1,21 @@
-package cn.ruicz.basecore.initializer;
+package cn.ruicz.basecore.manager;
 
 import me.yokeyword.fragmentation.SwipeBackLayout;
 
-public class SwipeBackConfig {
+public class SwipeBackManager {
 
-    private static SwipeBackConfig Instance = new SwipeBackConfig();
+    private static SwipeBackManager Instance = new SwipeBackManager();
 
     private int EdgeOrientation = SwipeBackLayout.EDGE_ALL;
     private float ParallaxOffset = 0.3f;
-    private boolean EnableGesture = true;
+    private boolean EnableGesture = false;
     private float SwipeAlpha = 0.5f;
     private SwipeBackLayout.EdgeLevel edgeLevel = SwipeBackLayout.EdgeLevel.MAX;
 
-    private SwipeBackConfig(){}
+    private SwipeBackManager(){}
 
 
-    public static SwipeBackConfig getInstance(){
+    public static SwipeBackManager getInstance(){
         return Instance;
     }
 
@@ -23,7 +23,7 @@ public class SwipeBackConfig {
         return EdgeOrientation;
     }
 
-    public SwipeBackConfig setEdgeOrientation(int edgeOrientation) {
+    public SwipeBackManager setEdgeOrientation(int edgeOrientation) {
         EdgeOrientation = edgeOrientation;
         return this;
     }
@@ -32,7 +32,7 @@ public class SwipeBackConfig {
         return ParallaxOffset;
     }
 
-    public SwipeBackConfig setParallaxOffset(float parallaxOffset) {
+    public SwipeBackManager setParallaxOffset(float parallaxOffset) {
         ParallaxOffset = parallaxOffset;
         return this;
     }
@@ -41,7 +41,7 @@ public class SwipeBackConfig {
         return EnableGesture;
     }
 
-    public SwipeBackConfig setEnableGesture(boolean enableGesture) {
+    public SwipeBackManager setEnableGesture(boolean enableGesture) {
         EnableGesture = enableGesture;
         return this;
     }
@@ -50,7 +50,7 @@ public class SwipeBackConfig {
         return SwipeAlpha;
     }
 
-    public SwipeBackConfig setSwipeAlpha(float swipeAlpha) {
+    public SwipeBackManager setSwipeAlpha(float swipeAlpha) {
         SwipeAlpha = swipeAlpha;
         return this;
     }

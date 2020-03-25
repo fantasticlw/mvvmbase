@@ -5,6 +5,10 @@ import android.databinding.Observable;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.ruicz.basecore.manager.WaterMarkManager;
 import cn.ruicz.demo.BR;
 import cn.ruicz.demo.R;
 import cn.ruicz.demo.databinding.ActivityLoginBinding;
@@ -36,6 +40,9 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     public void init() {
 
         setSwipeBackEnable(false);
+        List<String> list = new ArrayList<>();
+        list.add("name");
+        WaterMarkManager.getInstance().setWaterMark(this, list, 10, 20).setActivityBg(true).setFragmentBg(true);
     }
 
     @Override

@@ -55,6 +55,8 @@ public class FormFragment extends BaseFragment<FragmentFormBinding, FormViewMode
         //创建TitleViewModel
         TitleViewModel titleViewModel = createViewModel(TitleViewModel.class);
         viewModel.setTitleViewModel(titleViewModel);
+
+        cleanWaterMarkBg();
     }
 
     @Override

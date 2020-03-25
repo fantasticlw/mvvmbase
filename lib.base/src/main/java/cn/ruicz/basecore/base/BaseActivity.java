@@ -24,13 +24,13 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 import cn.ruicz.basecore.R;
-import cn.ruicz.basecore.initializer.SwipeBackConfig;
+import cn.ruicz.basecore.manager.SwipeBackManager;
+import cn.ruicz.basecore.manager.WaterMarkManager;
 import cn.ruicz.basecore.utils.ToastUtils;
 import cn.ruicz.basecore.utils.MaterialDialogUtils;
 import cn.ruicz.basecore.base.BaseViewModel.ParameterField;
 import cn.ruicz.basecore.bus.Messenger;
 import ezy.ui.layout.LoadingLayout;
-import me.yokeyword.fragmentation.SupportActivity;
 import me.yokeyword.fragmentation_swipeback.SwipeBackActivity;
 
 
@@ -56,6 +56,8 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         //私有的ViewModel与View的契约事件回调逻辑
         registorUIChangeLiveDataCallBack();
         initToolbar();
+        // 初始化背景水印
+        initWaterMarkBg();
         //页面数据初始化方法
         init();
         //页面事件监听的方法，一般用于ViewModel层转到View层的事件注册
@@ -135,11 +137,11 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
      * 初始化滑动返回layout
      */
     public void initSwipeBackConfig(){
-        setSwipeBackEnable(SwipeBackConfig.getInstance().isEnableGesture());// 是否允许滑动
-        setEdgeLevel(SwipeBackConfig.getInstance().getEdgeLevel());// 滑动范围
-        getSwipeBackLayout().setParallaxOffset(SwipeBackConfig.getInstance().getParallaxOffset()); // （类iOS）滑动退出视觉差，默认0.3
-        getSwipeBackLayout().setEdgeOrientation(SwipeBackConfig.getInstance().getEdgeOrientation());    // EDGE_LEFT(默认),EDGE_ALL
-        getSwipeBackLayout().setSwipeAlpha(SwipeBackConfig.getInstance().getSwipeAlpha());    // 滑动中，设置上一个页面View的阴影透明程度度，默认0.5f
+        setSwipeBackEnable(SwipeBackManager.getInstance().isEnableGesture());// 是否允许滑动
+        setEdgeLevel(SwipeBackManager.getInstance().getEdgeLevel());// 滑动范围
+        getSwipeBackLayout().setParallaxOffset(SwipeBackManager.getInstance().getParallaxOffset()); // （类iOS）滑动退出视觉差，默认0.3
+        getSwipeBackLayout().setEdgeOrientation(SwipeBackManager.getInstance().getEdgeOrientation());    // EDGE_LEFT(默认),EDGE_ALL
+        getSwipeBackLayout().setSwipeAlpha(SwipeBackManager.getInstance().getSwipeAlpha());    // 滑动中，设置上一个页面View的阴影透明程度度，默认0.5f
     }
 
     // 初始化loadinglayout
@@ -160,6 +162,17 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
 
     public LoadingLayout getLoadingLayout(){
         return loadingLayout;
+    }
+
+    // 初始化背景水印
+    public void initWaterMarkBg() {
+        if (WaterMarkManager.getInstance().isFragmentBg()) {
+            binding.getRoot().setBackground(WaterMarkManager.getInstance().getWaterMarkBg());
+        }
+    }
+
+    public void cleanWaterMarkBg(){
+        binding.getRoot().setBackgroundColor(getResources().getColor(R.color.view_background));
     }
 
     /**
