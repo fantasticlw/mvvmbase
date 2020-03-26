@@ -587,27 +587,30 @@ public class SwipeBackLayout extends FrameLayout {
                     isFirst = 0;
                     curx = ev.getRawX();
                     cury = ev.getRawY();
-                    return mHelper.shouldInterceptTouchEvent(ev);
-                case MotionEvent.ACTION_MOVE:
-                    // 判断X方向偏移量大于Y方向偏移量（连续两次）
-                    if (isFirst < 2 && (Math.abs(ev.getRawX() - curx) * 0.6) > Math.abs(ev.getRawY() - cury)) {
-                        if (isFirst == 1)isIgnore = false;
-                    }
-                    isFirst++;
-                    break;
             }
-            if (!isIgnore) return mHelper.shouldInterceptTouchEvent(ev);
         } catch (Exception ignored) {
             ignored.printStackTrace();
         }
-        return false;
+        return mHelper.shouldInterceptTouchEvent(ev);
     }
 
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         try {
-            if (mEnable) mHelper.processTouchEvent(event);
+            if (!mEnable) return false;
+            if (event.getActionMasked() == MotionEvent.ACTION_MOVE) {
+                // 判断X方向偏移量大于Y方向偏移量（连续两次）
+                if (isFirst < 2 && (Math.abs(event.getRawX() - curx) * 0.5) > Math.abs(event.getRawY() - cury)) {
+                    if (isFirst == 1) isIgnore = false;
+                }
+                isFirst++;
+                curx = event.getRawX();
+                cury = event.getRawY();
+            }
+            if (!isIgnore) {
+                mHelper.processTouchEvent(event);
+            }
             return true;
         } catch (Exception ignored) {
             ignored.printStackTrace();
