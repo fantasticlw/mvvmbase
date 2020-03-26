@@ -137,7 +137,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
      * 初始化滑动返回layout
      */
     public void initSwipeBackConfig(){
-        setSwipeBackEnable(SwipeBackManager.getInstance().isEnableGesture());// 是否允许滑动
+        setSwipeBackEnable(SwipeBackManager.getInstance().isEnable());// 是否允许滑动
         setEdgeLevel(SwipeBackManager.getInstance().getEdgeLevel());// 滑动范围
         getSwipeBackLayout().setParallaxOffset(SwipeBackManager.getInstance().getParallaxOffset()); // （类iOS）滑动退出视觉差，默认0.3
         getSwipeBackLayout().setEdgeOrientation(SwipeBackManager.getInstance().getEdgeOrientation());    // EDGE_LEFT(默认),EDGE_ALL

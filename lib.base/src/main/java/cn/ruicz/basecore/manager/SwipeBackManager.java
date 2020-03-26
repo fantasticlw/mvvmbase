@@ -8,7 +8,7 @@ public class SwipeBackManager {
 
     private int EdgeOrientation = SwipeBackLayout.EDGE_ALL;
     private float ParallaxOffset = 0.3f;
-    private boolean EnableGesture = false;
+    private boolean Enable = false;
     private float SwipeAlpha = 0.5f;
     private SwipeBackLayout.EdgeLevel edgeLevel = SwipeBackLayout.EdgeLevel.MAX;
 
@@ -37,12 +37,12 @@ public class SwipeBackManager {
         return this;
     }
 
-    public boolean isEnableGesture() {
-        return EnableGesture;
+    public boolean isEnable() {
+        return Enable;
     }
 
-    public SwipeBackManager setEnableGesture(boolean enableGesture) {
-        EnableGesture = enableGesture;
+    public SwipeBackManager setEnable(boolean enable) {
+        Enable = enable;
         return this;
     }
 

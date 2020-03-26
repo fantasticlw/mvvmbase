@@ -31,7 +31,7 @@ public class WaterMarkManager {
     }
 
     public WaterMarkManager setActivityBg(boolean isActivityBg){
-        if (waterMarkBg == null){
+        if (isActivityBg && waterMarkBg == null){
             throw new IllegalArgumentException("must first call setWaterMark()");
         }
         this.isActivityBg = isActivityBg;
@@ -39,7 +39,7 @@ public class WaterMarkManager {
     }
 
     public WaterMarkManager setFragmentBg(boolean isFragmentBg){
-        if (waterMarkBg == null){
+        if (isFragmentBg && waterMarkBg == null){
             throw new IllegalArgumentException("must first call setWaterMark()");
         }
         this.isFragmentBg = isFragmentBg;
