@@ -14,6 +14,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -575,23 +576,42 @@ public class SwipeBackLayout extends FrameLayout {
 
     float curx = 0;
     float cury = 0;
-    boolean isIgnore = true;
-    int isFirst = 0;
+    boolean onInterceptTouchIsIgnore = true;
+    boolean onTouchIsIgnore = true;
+    int onInterceptTouchIsFirst = 0;
+    int onTouchIsFirst = 0;
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         if (!mEnable) return super.onInterceptTouchEvent(ev);
         try {
             switch (ev.getActionMasked()){
                 case MotionEvent.ACTION_DOWN:
-                    isIgnore = true;
-                    isFirst = 0;
+                    onInterceptTouchIsIgnore = true;
+                    onTouchIsIgnore = true;
+                    onInterceptTouchIsFirst = 0;
+                    onTouchIsFirst = 0;
                     curx = ev.getRawX();
                     cury = ev.getRawY();
+                    return mHelper.shouldInterceptTouchEvent(ev);
+                case MotionEvent.ACTION_MOVE:
+                    // 判断X方向偏移量大于Y方向偏移量（连续两次）
+                    if (onInterceptTouchIsFirst < 2 && (Math.abs(ev.getRawX() - curx) * 0.5) > Math.abs(ev.getRawY() - cury)) {
+                        if (onInterceptTouchIsFirst == 1) onInterceptTouchIsIgnore = false;
+                    }
+                    onInterceptTouchIsFirst++;
+                    curx = ev.getRawX();
+                    cury = ev.getRawY();
+                    if (!onInterceptTouchIsIgnore) {
+                        return mHelper.shouldInterceptTouchEvent(ev);
+                    }
             }
+
         } catch (Exception ignored) {
             ignored.printStackTrace();
         }
-        return mHelper.shouldInterceptTouchEvent(ev);
+
+        Log.d("SwipeBackLayout", "onInterceptTouchEvent = " + ev.getActionMasked());
+        return false;
     }
 
 
@@ -599,22 +619,25 @@ public class SwipeBackLayout extends FrameLayout {
     public boolean onTouchEvent(MotionEvent event) {
         try {
             if (!mEnable) return false;
+            Log.d("SwipeBackLayout", "onTouchEvent = " + event.getActionMasked());
+
             if (event.getActionMasked() == MotionEvent.ACTION_MOVE) {
                 // 判断X方向偏移量大于Y方向偏移量（连续两次）
-                if (isFirst < 2 && (Math.abs(event.getRawX() - curx) * 0.5) > Math.abs(event.getRawY() - cury)) {
-                    if (isFirst == 1) isIgnore = false;
+                if (onTouchIsFirst < 2 && (Math.abs(event.getRawX() - curx) * 0.5) > Math.abs(event.getRawY() - cury)) {
+                    if (onTouchIsFirst == 1) onTouchIsIgnore = false;
                 }
-                isFirst++;
+                onTouchIsFirst++;
                 curx = event.getRawX();
                 cury = event.getRawY();
             }
-            if (!isIgnore) {
+            if (!onTouchIsIgnore) {
                 mHelper.processTouchEvent(event);
             }
             return true;
+
         } catch (Exception ignored) {
             ignored.printStackTrace();
         }
-        return false;
+        return super.onTouchEvent(event);
     }
 }
