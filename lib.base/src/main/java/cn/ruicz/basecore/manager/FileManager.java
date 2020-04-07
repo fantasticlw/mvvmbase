@@ -12,7 +12,7 @@ import cn.ruicz.basecore.utils.FileUtils;
 
 public class FileManager {
 
-    private final static String APP_DIR = "/health/";
+    private static String APP_DIR = "/app/";
     private final static String CACHE = "Cache/";
     private final static String FILE = "File/";
     private final static String FILE_NET = "Net/";
@@ -24,6 +24,10 @@ public class FileManager {
     private final static String MEDIA_VIDEO = MEDIA+"VIDEO/";
     private final static String MEDIA_IMAGE_THUMB = MEDIA_IMAGE+"THUMB/";
     private final static String MEDIA_AVATAR = MEDIA+"AVATAR/";
+
+    public static void initAppDir(String appDir){
+        APP_DIR = String.format("/%s/", appDir);
+    }
 
     public static String getAppDir(){
         return Environment.getExternalStorageDirectory()+"/"+APP_DIR;

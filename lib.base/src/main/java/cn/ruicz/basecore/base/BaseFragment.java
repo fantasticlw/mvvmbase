@@ -46,6 +46,7 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
     private MaterialDialog dialog;
     public LoadingLayout loadingLayout;
     public Toolbar mToolbar;
+    private boolean isInitFirst = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -106,6 +107,14 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
         super.onViewCreated(view, savedInstanceState);
 
         initSwipeBackConfig();
+
+        // 如果开启滑动返回功能，初始化工作需要在 onEnterAnimationEnd 中完成，避免卡顿
+        if (isInitFirst && !SwipeBackManager.getInstance().isEnable()) {
+            isInitFirst = false;
+            return;
+        }
+
+
         //私有的ViewModel与View的契约事件回调逻辑
         registorUIChangeLiveDataCallBack();
         initToolbar();
@@ -121,6 +130,28 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
 
 
     @Override
+    public void onEnterAnimationEnd(Bundle savedInstanceState) {
+        super.onEnterAnimationEnd(savedInstanceState);
+
+        // 如果开启滑动返回功能，初始化工作需要在 onEnterAnimationEnd 中完成，避免卡顿
+        if (isInitFirst && SwipeBackManager.getInstance().isEnable()) {
+            isInitFirst = false;
+            return;
+        }
+
+        //私有的ViewModel与View的契约事件回调逻辑
+        registorUIChangeLiveDataCallBack();
+        initToolbar();
+        // 初始化背景水印
+        initWaterMarkBg();
+        //页面数据初始化方法
+        init();
+        //页面事件监听的方法，一般用于ViewModel层转到View层的事件注册
+        initViewObservable();
+        //注册RxBus
+        viewModel.registerRxBus();
+    }
+
     public void initToolbar() {
         mToolbar = (Toolbar) binding.getRoot().findViewById(R.id.toolbar);
         setUpToolbar("", true);

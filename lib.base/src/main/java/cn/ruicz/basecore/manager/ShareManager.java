@@ -33,7 +33,7 @@ public class ShareManager {
     public static  <T> T get(@NonNull Class<T> modelClass) {
         String canonicalName = modelClass.getCanonicalName();
         if (canonicalName == null) {
-            throw new IllegalArgumentException("Local and anonymous classes can not be ViewModels");
+            throw new IllegalArgumentException("Local and anonymous classes can not be save");
         }
         Object object = mMap.get(canonicalName);
 

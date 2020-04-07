@@ -23,8 +23,8 @@ public enum ImageLoadManager {
     INSTANCE;
 
     RequestOptions options = new RequestOptions()
-            .placeholder(R.mipmap.imageholder)                //加载成功之前占位图
-            .error(R.mipmap.imageholder)                    //加载错误之后的错误图
+            .placeholder(R.drawable.imageholder)                //加载成功之前占位图
+            .error(R.drawable.imageholder)                    //加载错误之后的错误图
 //指定图片的缩放类型为fitCenter （等比例缩放图片，宽或者是高等于ImageView的宽或者是高。）
             .fitCenter()
             .diskCacheStrategy(DiskCacheStrategy.DATA);        //只缓存原来分辨率的图片
