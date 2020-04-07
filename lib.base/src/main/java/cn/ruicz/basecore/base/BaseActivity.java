@@ -46,7 +46,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
     private MaterialDialog dialog;
     public LoadingLayout loadingLayout;
     public Toolbar mToolbar;
-    private boolean isInitFirst = false;
+    private boolean isInitFirst = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +56,32 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         initViewDataBinding(savedInstanceState);
 
         // 如果开启滑动返回功能，初始化工作需要在 onEnterAnimationComplete 中完成，避免卡顿
-        if (!isInitFirst && SwipeBackManager.getInstance().isEnable()) {
-            isInitFirst = true;
-            return;
-        }
+        if (isInitFirst && SwipeBackManager.getInstance().isEnable()) return;
 
+        isInitFirst = false;
+
+        //私有的ViewModel与View的契约事件回调逻辑
+        registorUIChangeLiveDataCallBack();
+        initToolbar();
+        // 初始化背景水印
+        initWaterMarkBg();
+        //页面数据初始化方法
+        init();
+        //页面事件监听的方法，一般用于ViewModel层转到View层的事件注册
+        initViewObservable();
+        //注册RxBus
+        viewModel.registerRxBus();
+    }
+
+
+    @Override
+    public void onEnterAnimationComplete() {
+        super.onEnterAnimationComplete();
+
+        // 如果开启滑动返回功能，初始化工作需要在 onEnterAnimationComplete 中完成，避免卡顿
+        if (isInitFirst && !SwipeBackManager.getInstance().isEnable()) return;
+
+        isInitFirst = false;
 
         //私有的ViewModel与View的契约事件回调逻辑
         registorUIChangeLiveDataCallBack();
@@ -91,28 +112,6 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         binding.unbind();
     }
 
-    @Override
-    public void onEnterAnimationComplete() {
-        super.onEnterAnimationComplete();
-
-        // 如果开启滑动返回功能，初始化工作需要在 onEnterAnimationComplete 中完成，避免卡顿
-        if (!isInitFirst && !SwipeBackManager.getInstance().isEnable()) {
-            isInitFirst = true;
-            return;
-        }
-
-        //私有的ViewModel与View的契约事件回调逻辑
-        registorUIChangeLiveDataCallBack();
-        initToolbar();
-        // 初始化背景水印
-        initWaterMarkBg();
-        //页面数据初始化方法
-        init();
-        //页面事件监听的方法，一般用于ViewModel层转到View层的事件注册
-        initViewObservable();
-        //注册RxBus
-        viewModel.registerRxBus();
-    }
 
     public void initToolbar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
