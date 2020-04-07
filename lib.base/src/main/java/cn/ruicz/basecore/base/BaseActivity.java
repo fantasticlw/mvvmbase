@@ -56,7 +56,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         initViewDataBinding(savedInstanceState);
 
         // 如果开启滑动返回功能，初始化工作需要在 onEnterAnimationComplete 中完成，避免卡顿
-        if (!isInitFirst && !SwipeBackManager.getInstance().isEnable()) {
+        if (!isInitFirst && SwipeBackManager.getInstance().isEnable()) {
             isInitFirst = true;
             return;
         }
@@ -96,7 +96,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         super.onEnterAnimationComplete();
 
         // 如果开启滑动返回功能，初始化工作需要在 onEnterAnimationComplete 中完成，避免卡顿
-        if (!isInitFirst && SwipeBackManager.getInstance().isEnable()) {
+        if (!isInitFirst && !SwipeBackManager.getInstance().isEnable()) {
             isInitFirst = true;
             return;
         }

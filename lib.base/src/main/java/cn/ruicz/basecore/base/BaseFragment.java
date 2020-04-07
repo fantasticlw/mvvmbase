@@ -109,7 +109,7 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
         initSwipeBackConfig();
 
         // 如果开启滑动返回功能，初始化工作需要在 onEnterAnimationEnd 中完成，避免卡顿
-        if (isInitFirst && !SwipeBackManager.getInstance().isEnable()) {
+        if (isInitFirst && SwipeBackManager.getInstance().isEnable()) {
             isInitFirst = false;
             return;
         }
@@ -134,7 +134,7 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
         super.onEnterAnimationEnd(savedInstanceState);
 
         // 如果开启滑动返回功能，初始化工作需要在 onEnterAnimationEnd 中完成，避免卡顿
-        if (isInitFirst && SwipeBackManager.getInstance().isEnable()) {
+        if (isInitFirst && !SwipeBackManager.getInstance().isEnable()) {
             isInitFirst = false;
             return;
         }
