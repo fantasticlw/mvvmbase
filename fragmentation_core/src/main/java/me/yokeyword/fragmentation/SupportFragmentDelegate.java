@@ -201,14 +201,17 @@ public class SupportFragmentDelegate {
         }
 
 
-        if (savedInstanceState != null
+        /*if (savedInstanceState != null
                 || mRootStatus == STATUS_ROOT_ANIM_DISABLE
                 || (mFragment.getTag() != null && mFragment.getTag().startsWith("android:switcher:"))
                 || (mReplaceMode && !mFirstCreateView)) {
             notifyEnterAnimEnd();
-        } else if (mCustomEnterAnim != Integer.MIN_VALUE) {
+        } else */
+        if (mCustomEnterAnim != Integer.MIN_VALUE) {
             fixAnimationListener(mCustomEnterAnim == 0 ?
                     mAnimHelper.getNoneAnim() : AnimationUtils.loadAnimation(_mActivity, mCustomEnterAnim));
+        }else{
+            notifyEnterAnimEnd();
         }
 
         if (mFirstCreateView) {
@@ -676,7 +679,7 @@ public class SupportFragmentDelegate {
         return _mActivity;
     }
 
-    private Animation getEnterAnim() {
+    public Animation getEnterAnim() {
         if (mCustomEnterAnim == Integer.MIN_VALUE) {
             if (mAnimHelper != null && mAnimHelper.enterAnim != null) {
                 return mAnimHelper.enterAnim;

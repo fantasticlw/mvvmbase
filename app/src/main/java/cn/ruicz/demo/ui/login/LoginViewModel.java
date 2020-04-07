@@ -83,14 +83,14 @@ public class LoginViewModel extends BaseViewModel {
      * 网络模拟一个登陆操作
      **/
     private void login() {
-        if (TextUtils.isEmpty(userName.getValue())) {
-            ToastUtils.showShort("请输入账号！");
-            return;
-        }
-        if (TextUtils.isEmpty(password.getValue())) {
-            ToastUtils.showShort("请输入密码！");
-            return;
-        }
+//        if (TextUtils.isEmpty(userName.getValue())) {
+//            ToastUtils.showShort("请输入账号！");
+//            return;
+//        }
+//        if (TextUtils.isEmpty(password.getValue())) {
+//            ToastUtils.showShort("请输入密码！");
+//            return;
+//        }
         //RaJava模拟一个延迟操作
         Observable.empty()
                 .delay(1, TimeUnit.SECONDS) //延迟3秒

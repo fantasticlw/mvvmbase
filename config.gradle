@@ -6,8 +6,8 @@ ext {
             applicationId    : "com.goldze.mvvmhabit",
             minSdkVersion    : 16,
             targetSdkVersion : 28,
-            versionCode      : 25,
-            versionName      : "1.22.4",
+            versionCode      : 26,
+            versionName      : "1.22.5",
     ]
     //version配置
     versions = [
