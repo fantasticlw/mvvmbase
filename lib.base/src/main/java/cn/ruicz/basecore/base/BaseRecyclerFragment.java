@@ -90,7 +90,7 @@ public abstract class BaseRecyclerFragment<V extends FragmentRecyclerBinding, VM
     private void initView() {
         mRefreshLayout = binding.refreshLayout;
         mRecyclerView = binding.recyclerView;
-        initLoadingLayout(mRecyclerView);
+        initLoadingLayout(mRefreshLayout);
         loadingLayout.showContent();
         loadingLayout.setRetryListener(new View.OnClickListener() {
             @Override

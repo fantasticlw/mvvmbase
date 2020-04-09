@@ -149,6 +149,8 @@ public class SupportFragmentDelegate {
     }
 
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+        // mPopMultipleNoAnim ：调用 startWithPopTo() 和 startWithPopTo() 为true
+        //mLockAnim ：startWithPopTo() 为true
         if ((mSupport.getSupportDelegate().mPopMultipleNoAnim || mLockAnim)) {
             if (transit == FragmentTransaction.TRANSIT_FRAGMENT_CLOSE && enter) {
                 return mAnimHelper.getNoneAnimFixed();
@@ -201,6 +203,10 @@ public class SupportFragmentDelegate {
         }
 
 
+        // savedInstanceState
+        // mRootStatus 是否使用loadRootXXX 模式加载
+        // mFragment.getTag().startsWith("android:switcher:") 是否为 viewpager 中的fragment
+        // mFirstCreateView 是否第一次创建此fragment
         if (savedInstanceState != null
                 || mRootStatus == STATUS_ROOT_ANIM_DISABLE
                 || (mFragment.getTag() != null && mFragment.getTag().startsWith("android:switcher:"))
