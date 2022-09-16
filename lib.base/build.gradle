@@ -15,14 +15,12 @@ android {
         buildConfigField "Boolean", "IS_ZWWX",  IS_ZWWX
     }
     dataBinding {
-        enabled true
-    }
+        enabled true}
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
+        }}
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -30,8 +28,7 @@ android {
     }
 
     packagingOptions {
-        exclude 'META-INF/proguard/androidx-annotations.pro'
-    }
+        exclude 'META-INF/proguard/androidx-annotations.pro'}
 }
 
 dependencies {
@@ -60,11 +57,9 @@ dependencies {
     api rootProject.ext.dependencies.gson
     //material-dialogs
     api(rootProject.ext.dependencies["material-dialogs-core"]) {
-        exclude group: 'com.android.support'
-    }
+        exclude group: 'com.android.support'}
     api(rootProject.ext.dependencies["material-dialogs-commons"]) {
-        exclude group: 'com.android.support'
-    }
+        exclude group: 'com.android.support'}
     // dialog第三方库
     api rootProject.ext.dependencies.xpopup
 
@@ -77,8 +72,7 @@ dependencies {
     //recyclerview的databinding套装
     api rootProject.ext.dependencies.bindingcollectionadapter
     api(rootProject.ext.dependencies["bindingcollectionadapter-recyclerview"]) {
-        exclude group: 'com.android.support'
-    }
+        exclude group: 'com.android.support'}
     //Google LiveData和ViewModel组件
     api rootProject.ext.dependencies["lifecycle-extensions"]
     annotationProcessor rootProject.ext.dependencies["lifecycle-compiler"]
@@ -90,8 +84,7 @@ dependencies {
     api 'com.uber.autodispose:autodispose-android-archcomponents:1.0.0-RC3'
     // 加载数据Layout
     api('com.github.czy1121:loadinglayout:1.0.1') {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
+        exclude group: 'com.android.support', module: 'support-annotations'}
     api rootProject.ext.dependencies["multidex"]
     api rootProject.ext.dependencies["FastJson"]
     api rootProject.ext.dependencies["PagerBottomTabStrip"]
